@@ -1,0 +1,52 @@
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+}
+
+.navigation h3 {
+    overflow: hidden;
+}
+
+.links {
+    display: flex;
+    margin-left: 25px;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.link {
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.searchBar {
+    margin-top: 30px;
+}
+
+.userArea {
+    float: right;
+    display: inline-flex;
+    margin-left: auto;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+}
+
+.user {
+    margin-top: 5px;
+}
+
+.nav {
+    height: 64px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
