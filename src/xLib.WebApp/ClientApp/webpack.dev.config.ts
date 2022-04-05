@@ -67,6 +67,7 @@ const config: WebPackDevConfiguration = {
         static: {
             directory: path.join(__dirname, 'build'),
         },
+        hot: false,
         historyApiFallback: true,
         port: 3000,
         open: {
