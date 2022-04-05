@@ -5,13 +5,13 @@
 **Create Container**
 
 ```bash
-nerdctl compose -f .\docker-compose.yml --env-file .\dbcredentials.env up -d
+nerdctl compose -f .\container\xLib-compose.yml --env-file .\dbcredentials.env up -d
 ```
 
 **Stop Container**
 
 ```bash
-nerdctl compose -f .\docker-compose.yml --env-file .\dbcredentials.env down
+nerdctl compose -f .\container\xLib-compose.yml --env-file .\dbcredentials.env down
 ```
 
 ### Migration
