@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Book\Commands\" />
+    <Folder Include="Book\Handlers\" />
+    <Folder Include="Book\ViewModels\" />
+    <Folder Include="Book\Queries\" />
     <Folder Include="Common\Behaviours\" />
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Interfaces\" />
