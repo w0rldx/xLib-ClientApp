@@ -5,7 +5,7 @@ using Domain.Enums;
 public class BookVm
 {
     public Guid Id { get; set; }
-    public Type Type { get; set; }
+    public Type? Type { get; set; }
     public string? SchoolClass { get; set; }
     public string? Subject { get; set; }
     public string? Category { get; set; }
