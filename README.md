@@ -27,7 +27,7 @@ If you would like to use Postgres Server, you will need to update WebUI/appsetti
 go to .\src folder and run following inside a terminal
 
 ```bash
-dotnet ef migrations add "InitialMigration" --project .\xLib.Infastructure --startup-project .\xLib.WebApp --output-dir Persistence\Migrations
+dotnet ef migrations add "InitialMigration" --project .\src\xLib.Infastructure --startup-project .\src\xLib.WebApp --output-dir Persistence\Migrations
 ```
 
 **Revert Migration**
