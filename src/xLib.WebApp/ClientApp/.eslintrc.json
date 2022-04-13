@@ -41,6 +41,7 @@
         "node": true
     },
     "rules": {
+        "prettier/prettier": "error",
         "react/react-in-jsx-scope": "off",
         "jsx-a11y/accessible-emoji": "off",
         "@typescript-eslint/explicit-function-return-type": "off",

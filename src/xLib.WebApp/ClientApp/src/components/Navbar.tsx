@@ -1,11 +1,7 @@
-import { Typography } from 'antd';
-import Search from 'antd/lib/input/Search';
+import { Text } from '@mantine/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Navbar.scss';
-import UserMenu from './UserMenu';
-
-const { Title } = Typography;
 
 const defaultLinkData = [{ href: '/', label: 'Home' }];
 
@@ -19,19 +15,15 @@ function Navbar() {
     return (
         <div className="nav">
             <div className="navigation">
-                <Title level={3} style={{ color: '#ffffff', marginTop: 10 }}>
+                <Text weight={700} className="logo">
                     xLib
-                </Title>
+                </Text>
                 <div className="links">{links}</div>
             </div>
 
             <div className="userArea">
-                <div className="searchBar">
-                    <Search placeholder="Search" style={{ width: 200 }} />
-                </div>
-                <div className="user">
-                    <UserMenu />
-                </div>
+                <div className="searchBar"></div>
+                <div className="user"></div>
             </div>
         </div>
     );

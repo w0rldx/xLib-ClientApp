@@ -1,7 +1,9 @@
+@import './Variables.scss';
+
 .logo {
+    margin-top: 10;
     font-size: 30px;
-    font-weight: bold;
-    color: #fff;
+    color: $logo-color-dark;
 }
 
 .navigation {
@@ -45,6 +47,7 @@
 }
 
 .nav {
+    padding: 0px 30px;
     height: 64px;
     display: flex;
     justify-content: space-between;

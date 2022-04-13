@@ -1,9 +1,10 @@
+import { Button } from '@mantine/core';
 import React from 'react';
 
 function Home() {
     return (
         <div>
-            <div>Home Site</div>
+            <Button>Home Site!</Button>
         </div>
     );
 }

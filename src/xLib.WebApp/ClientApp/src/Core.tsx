@@ -6,7 +6,7 @@ import Home from './pages/Home';
 
 const Core = () => {
     return (
-        <SiteLayout navbar={<Navbar />} footer={'test'}>
+        <SiteLayout navbar={<Navbar />}>
             <Routes>
                 <Route path="/" element={<Home />} />
             </Routes>
