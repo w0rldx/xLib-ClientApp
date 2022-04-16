@@ -1,12 +1,13 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import SidePanel from './components/SidePanel';
 import SiteLayout from './components/SiteLayout';
+import TopBar from './components/TopBar';
 import Home from './pages/Home';
 
 const Core = () => {
     return (
-        <SiteLayout navbar={<Navbar />}>
+        <SiteLayout topBar={<TopBar />} sidePanel={<SidePanel />}>
             <Routes>
                 <Route path="/" element={<Home />} />
             </Routes>
