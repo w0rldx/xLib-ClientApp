@@ -1,6 +1,7 @@
 ﻿namespace xLib.Application.Book.Handlers;
 
 using Common.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Queries;
 using ViewModels;
@@ -18,7 +19,9 @@ public class GetBookQueryHandler : IRequestHandler<GetBookQuery, List<BookVm>>
     {
         List<BookVm> bookListVms = new List<BookVm>();
 
-        foreach (var bookListItem in bookListVms)
+        var books = await _context.Books.ToListAsync();
+
+        foreach (var bookListItem in books)
         {
             bookListVms.Add(new BookVm()
             {

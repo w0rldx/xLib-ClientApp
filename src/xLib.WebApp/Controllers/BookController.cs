@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using xLib.Application.Book.Commands;
 
 namespace xLib.WebApp.Controllers
 {
@@ -14,6 +15,14 @@ namespace xLib.WebApp.Controllers
         public async Task<ActionResult<List<BookVm>>> GetAllBooks()
         {
             return await Mediator.Send(new GetBookQuery());
+        }
+
+        [HttpPost]
+        public async Task<BookVm> Post(InsertBookCommand command)
+        {
+            var result = await Mediator.Send(command);
+
+            return result;
         }
     }
 }

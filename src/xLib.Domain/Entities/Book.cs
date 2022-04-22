@@ -3,12 +3,11 @@
 using Common.Interfaces;
 using Enums;
 
-public class Book: IAuditableEntity, IBaseEntity
+public class Book : IAuditableEntity, IBaseEntity
 {
     public Guid Id { get; set; }
     public DateTime Created { get; set; }
     public DateTime? LastModified { get; set; }
-
     public Type? Type { get; set; }
     public string? SchoolClass { get; set; }
     public string? Subject { get; set; }

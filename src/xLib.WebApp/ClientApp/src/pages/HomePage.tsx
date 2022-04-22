@@ -2,7 +2,7 @@ import { Button } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import React from 'react';
 
-function Home() {
+function HomePage() {
     return (
         <div>
             <Button>Home Site!</Button>
@@ -21,4 +21,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default HomePage;

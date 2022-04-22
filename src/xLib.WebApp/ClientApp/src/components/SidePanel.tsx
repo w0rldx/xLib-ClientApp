@@ -1,11 +1,12 @@
 import React from 'react';
-import { AiOutlineBook, AiOutlineHome } from 'react-icons/ai';
+import { AiOutlineBook, AiOutlineHome, AiOutlineSetting } from 'react-icons/ai';
 import '../styles/SidePanel.scss';
 import SidePanelItem from './SidePanelItem';
 
 const defaultLinkData = [
     { href: '/', label: 'Start', icon: <AiOutlineHome /> },
     { href: '/books', label: 'Books', icon: <AiOutlineBook /> },
+    { href: '/settings', label: 'Settings', icon: <AiOutlineSetting /> },
 ];
 
 function SidePanel() {
