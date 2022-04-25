@@ -3,7 +3,10 @@ import ESLintPlugin from 'eslint-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import { Configuration as WebpackConfiguration, HotModuleReplacementPlugin } from 'webpack';
+import webpack, {
+    Configuration as WebpackConfiguration,
+    HotModuleReplacementPlugin,
+} from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
 interface WebPackDevConfiguration extends WebpackConfiguration {
@@ -63,6 +66,12 @@ const config: WebPackDevConfiguration = {
             async: false,
         }),
         new HotModuleReplacementPlugin(),
+        new webpack.ProvidePlugin({
+            process: 'process/browser',
+        }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('development'),
+        }),
     ],
     devtool: 'inline-source-map',
     devServer: {

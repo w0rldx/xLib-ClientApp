@@ -1,9 +1,10 @@
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import Dotenv from 'dotenv-webpack';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import { Configuration } from 'webpack';
+import webpack, { Configuration } from 'webpack';
 
 const config: Configuration = {
     mode: 'production',
@@ -49,6 +50,7 @@ const config: Configuration = {
         extensions: ['.tsx', '.ts', '.js'],
     },
     plugins: [
+        new Dotenv(),
         new ESLintPlugin({
             extensions: ['js', 'jsx', 'ts', 'tsx'],
         }),
@@ -58,6 +60,12 @@ const config: Configuration = {
         }),
         new ForkTsCheckerWebpackPlugin({
             async: false,
+        }),
+        new webpack.ProvidePlugin({
+            process: 'process/browser',
+        }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('development'),
         }),
     ],
 };
