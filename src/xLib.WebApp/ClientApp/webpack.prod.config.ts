@@ -1,5 +1,6 @@
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
+import { ESBuildMinifyPlugin } from 'esbuild-loader';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -14,25 +15,17 @@ const config: Configuration = {
         filename: '[name].[contenthash].js',
         publicPath: '',
     },
+    context: __dirname,
     module: {
         rules: [
             {
                 test: /\.(ts|js)x?$/i,
                 exclude: /node_modules/,
                 use: {
-                    loader: 'babel-loader',
+                    loader: 'esbuild-loader',
                     options: {
-                        presets: [
-                            '@babel/preset-env',
-                            '@babel/preset-react',
-                            '@babel/preset-typescript',
-                        ],
-                        plugins: [
-                            '@babel/plugin-proposal-class-properties',
-                            '@babel/plugin-transform-runtime',
-                            '@babel/plugin-syntax-flow',
-                            '@babel/plugin-transform-react-jsx',
-                        ],
+                        loader: 'tsx',
+                        target: 'es2022',
                     },
                 },
             },
@@ -68,6 +61,13 @@ const config: Configuration = {
             'process.env.NODE_ENV': JSON.stringify('development'),
         }),
     ],
+    optimization: {
+        minimizer: [
+            new ESBuildMinifyPlugin({
+                target: 'es2022',
+            }),
+        ],
+    },
 };
 
 export default config;
