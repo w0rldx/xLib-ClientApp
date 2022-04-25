@@ -17,6 +17,13 @@ namespace xLib.WebApp.Controllers
             return await Mediator.Send(new GetBookQuery());
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<BookVm>> GetBookById(Guid id)
+        {
+            return await Mediator.Send(new GetBookByIdQuery(id));
+        }
+
         [HttpPost]
         public async Task<BookVm> Post(InsertBookCommand command)
         {

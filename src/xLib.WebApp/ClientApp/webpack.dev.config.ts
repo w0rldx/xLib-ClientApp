@@ -1,3 +1,4 @@
+import Dotenv from 'dotenv-webpack';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -51,6 +52,7 @@ const config: WebPackDevConfiguration = {
         extensions: ['.tsx', '.ts', '.js'],
     },
     plugins: [
+        new Dotenv(),
         new ESLintPlugin({
             extensions: ['js', 'jsx', 'ts', 'tsx'],
         }),

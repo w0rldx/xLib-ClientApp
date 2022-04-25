@@ -1,12 +1,28 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { useQuery } from 'react-query';
-import * as api from '../api/bookApi';
+import BookService from '../services/BookService';
+
+type BookViewModel = {
+    id: string;
+    title: string;
+};
 
 function BookTable() {
-    const { data } = useQuery([], api.getBooks);
+    const { status, data, error } = useQuery<BookViewModel[], Error>(
+        ['bookList'],
+        BookService.getAll
+    );
+
+    if (status === 'loading') {
+        return <span>Loading...</span>;
+    }
+
+    if (status === 'error') {
+        return <span>Error: {error.message}</span>;
+    }
+
     const books = data ? (
-        data.map((book: any) => {
+        data.map((book: BookViewModel) => {
             if (book === undefined) {
                 return <div>Loading...</div>;
             } else {
