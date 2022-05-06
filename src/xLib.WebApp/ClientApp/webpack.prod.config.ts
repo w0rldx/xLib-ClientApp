@@ -9,7 +9,7 @@ import webpack, { Configuration } from 'webpack';
 
 const config: Configuration = {
     mode: 'production',
-    entry: './src/App.tsx',
+    entry: './src/Index.tsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].[contenthash].js',

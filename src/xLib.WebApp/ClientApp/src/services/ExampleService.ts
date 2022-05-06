@@ -8,12 +8,12 @@ const apiClient = axios.create({
 });
 
 const getAll = async () => {
-    const response = await apiClient.get('book');
+    const response = await apiClient.get('example');
     return response.data;
 };
 
 const getById = async (id: string) => {
-    const response = await apiClient.get(`book/${id}`);
+    const response = await apiClient.get(`example/${id}`);
     return response.data;
 };
 

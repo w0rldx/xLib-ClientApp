@@ -20,7 +20,7 @@ const config: WebPackDevConfiguration = {
         publicPath: '/',
     },
     context: __dirname,
-    entry: './src/App.tsx',
+    entry: './src/Index.tsx',
     module: {
         rules: [
             {
