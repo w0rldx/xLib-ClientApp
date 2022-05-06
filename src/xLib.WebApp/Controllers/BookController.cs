@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using xLib.Application.Book.Commands;
 
 namespace xLib.WebApp.Controllers
@@ -30,7 +29,7 @@ namespace xLib.WebApp.Controllers
         {
             var result = await Mediator.Send(command);
 
-            return CreatedAtRoute("GetBookById", new {id = result.Id}, result);
+            //return CreatedAtRoute("GetBookById", new {id = result.Id}, result);
             return result;
         }
 
