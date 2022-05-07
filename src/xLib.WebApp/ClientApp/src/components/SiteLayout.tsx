@@ -7,6 +7,7 @@ type Props = {
     sidePanel?: React.ReactNode;
 };
 
+//TODO: Require research about why grid Component not working with TS useStyle TypeScript
 function SiteLayout({ children, topBar, sidePanel }: Props) {
     return (
         <div>
