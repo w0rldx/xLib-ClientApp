@@ -3,12 +3,17 @@ import React from 'react';
 import { MoonStars, Sun } from 'tabler-icons-react';
 import { useStyles } from '../styles/TopBarStyle';
 
-export function TopBar() {
+interface TopBarProps {
+    height: number;
+}
+
+export function TopBar(props: TopBarProps) {
     const { classes } = useStyles();
     const { colorScheme, toggleColorScheme } = useMantineColorScheme();
     const dark = colorScheme === 'dark';
 
     return (
+        //TODO: Fix Bug with Header
         <Header height={50} className={classes.header}>
             <div className={classes.inner}>
                 <Group ml={50} spacing={5}></Group>

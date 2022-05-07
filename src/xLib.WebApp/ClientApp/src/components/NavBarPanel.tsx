@@ -9,7 +9,7 @@ import {
     Notes,
     PresentationAnalytics,
 } from 'tabler-icons-react';
-import { useStyles } from '../styles/SidePanelStyle';
+import { useStyles } from '../styles/NavBarPanelStyle';
 import { LogoContainer } from './LogoContainer';
 import { LinksGroup } from './NavbarLinksGroup';
 import { VersionContainer } from './VersionContainer';
@@ -50,16 +50,20 @@ const mockdata = [
     },
 ];
 
-export function SidePanel() {
+interface NavBarPanelProps {
+    width: number;
+}
+
+export function NavBarPanel(props: NavBarPanelProps) {
     const { classes } = useStyles();
     const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
 
     return (
-        <Navbar p="md" className={classes.navbar}>
+        <Navbar p="md" className={classes.navbar} width={{ base: props.width }}>
             <Navbar.Section className={classes.header}>
                 <Group position="apart">
-                    <LogoContainer weight={600} fontsize={30}></LogoContainer>
-                    <VersionContainer></VersionContainer>
+                    <LogoContainer weight={600} fontsize={30} />
+                    <VersionContainer />
                 </Group>
             </Navbar.Section>
 

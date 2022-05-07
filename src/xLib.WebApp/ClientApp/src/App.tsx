@@ -2,9 +2,7 @@ import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Route, Routes } from 'react-router-dom';
-import { SidePanel } from './components/SidePanel';
 import SiteLayout from './components/SiteLayout';
-import { TopBar } from './components/TopBar';
 import Home from './pages/Home';
 import './scss/Index.scss';
 
@@ -23,7 +21,7 @@ function App() {
                     toggleColorScheme={toggleColorScheme}
                 >
                     <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-                        <SiteLayout sidePanel={<SidePanel />} topBar={<TopBar />}>
+                        <SiteLayout>
                             <Routes>
                                 <Route path="/" element={<Home />} />
                             </Routes>
