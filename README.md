@@ -5,13 +5,13 @@
 **Create Container**
 
 ```bash
-nerdctl compose -f .\container\xLib-compose.yml --env-file .\dbcredentials.env up -d
+nerdctl compose -f .\container\xLib-compose.yml --env-file .\container\dbcredentials.env up -d
 ```
 
 **Stop Container**
 
 ```bash
-nerdctl compose -f .\container\xLib-compose.yml --env-file .\dbcredentials.env down
+nerdctl compose -f .\container\xLib-compose.yml --env-file .\container\dbcredentials.env down
 ```
 
 ### Migration
@@ -24,8 +24,6 @@ If you would like to use Postgres Server, you will need to update WebUI/appsetti
 
 **Add New Migration**
 
-go to .\src folder and run following inside a terminal
-
 ```bash
 dotnet ef migrations add "InitialMigration" --project .\src\xLib.Infastructure --startup-project .\src\xLib.WebApp --output-dir Persistence\Migrations
 ```
@@ -33,5 +31,5 @@ dotnet ef migrations add "InitialMigration" --project .\src\xLib.Infastructure -
 **Revert Migration**
 
 ```bash
-dotnet ef migrations remove --project .\xLib.Infastructure --startup-project .\xLib.WebApp
+dotnet ef migrations remove --project .\src\xLib.Infastructure --startup-project .\src\xLib.WebApp
 ```
