@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Header, useMantineColorScheme } from '@mantine/core';
+import { ActionIcon, Group, useMantineColorScheme } from '@mantine/core';
 import React from 'react';
 import { MoonStars, Sun } from 'tabler-icons-react';
 import { useStyles } from '../styles/TopBarStyle';
@@ -13,8 +13,7 @@ export function TopBar(props: TopBarProps) {
     const dark = colorScheme === 'dark';
 
     return (
-        //TODO: Fix Bug with Header
-        <Header height={50} className={classes.header}>
+        <div style={{ height: props.height }} className={classes.header}>
             <div className={classes.inner}>
                 <Group ml={50} spacing={5}></Group>
                 <ActionIcon
@@ -26,6 +25,6 @@ export function TopBar(props: TopBarProps) {
                     {dark ? <Sun size={18} /> : <MoonStars size={18} />}
                 </ActionIcon>
             </div>
-        </Header>
+        </div>
     );
 }
