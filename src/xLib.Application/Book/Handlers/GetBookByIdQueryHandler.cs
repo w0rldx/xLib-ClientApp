@@ -1,6 +1,5 @@
 ﻿namespace xLib.Application.Book.Handlers;
 
-using Common.Interfaces;
 using MediatR;
 using Queries;
 using ViewModels;

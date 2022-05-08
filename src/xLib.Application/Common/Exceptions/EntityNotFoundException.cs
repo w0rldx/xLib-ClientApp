@@ -1,7 +1,4 @@
 ﻿namespace xLib.Application.Common.Exceptions;
-
-using System.Runtime.Serialization;
-
 public class EntityNotFoundException : Exception
 {
     public EntityNotFoundException()

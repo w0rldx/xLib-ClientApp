@@ -14,7 +14,7 @@ public class InsertBookCommandHandler : IRequestHandler<InsertBookCommand, BookV
     {
         _context = context;
     }
-    
+
     public async Task<BookVm> Handle(InsertBookCommand request, CancellationToken cancellationToken)
     {
         Book bookToAdd = new Book()
@@ -38,7 +38,7 @@ public class InsertBookCommandHandler : IRequestHandler<InsertBookCommand, BookV
             Type = request.Type,
             Year = request.Year
         };
-        
+
         var savedResult = _context.Books.Add(bookToAdd);
         await _context.SaveChangesAsync(cancellationToken);
 

@@ -1,16 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿namespace xLib.WebApp.Controllers;
+
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace xLib.WebApp.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class ApiControllerBase : ControllerBase
 {
-    using MediatR;
+    private ISender _mediator = null!;
 
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ApiControllerBase : ControllerBase
-    {
-        private ISender _mediator = null!;
-
-        protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
-    }
+    protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
 }
