@@ -1,6 +1,7 @@
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core';
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { Route, Routes } from 'react-router-dom';
 import SiteLayout from './components/SiteLayout';
 import Home from './pages/Home';
@@ -25,6 +26,7 @@ function App() {
                             <Routes>
                                 <Route path="/" element={<Home />} />
                             </Routes>
+                            <ReactQueryDevtools initialIsOpen={false} />
                         </SiteLayout>
                     </MantineProvider>
                 </ColorSchemeProvider>

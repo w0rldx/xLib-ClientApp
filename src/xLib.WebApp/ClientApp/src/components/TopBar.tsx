@@ -1,6 +1,6 @@
 import { ActionIcon, Group, useMantineColorScheme } from '@mantine/core';
 import React from 'react';
-import { MoonStars, Sun } from 'tabler-icons-react';
+import { BsMoonStars, BsSun } from 'react-icons/bs';
 import { useStyles } from '../styles/TopBarStyle';
 
 interface TopBarProps {
@@ -22,7 +22,7 @@ export function TopBar(props: TopBarProps) {
                     onClick={() => toggleColorScheme()}
                     title="Toggle color scheme"
                 >
-                    {dark ? <Sun size={18} /> : <MoonStars size={18} />}
+                    {dark ? <BsSun size={18} /> : <BsMoonStars size={18} />}
                 </ActionIcon>
             </div>
         </div>

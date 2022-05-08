@@ -1,62 +1,37 @@
 import { Group, Navbar, ScrollArea } from '@mantine/core';
 import React from 'react';
-import {
-    Adjustments,
-    CalendarStats,
-    FileAnalytics,
-    Gauge,
-    Lock,
-    Notes,
-    PresentationAnalytics,
-} from 'tabler-icons-react';
+import { useQuery } from 'react-query';
+import NavigationService from '../services/NavigationService';
 import { useStyles } from '../styles/NavBarPanelStyle';
 import { LogoContainer } from './LogoContainer';
 import { LinksGroup } from './NavbarLinksGroup';
 import { VersionContainer } from './VersionContainer';
 
-const mockdata = [
-    { label: 'Dashboard', icon: Gauge },
-    {
-        label: 'Market news',
-        icon: Notes,
-        initiallyOpened: true,
-        links: [
-            { label: 'Overview', link: '/' },
-            { label: 'Forecasts', link: '/' },
-            { label: 'Outlook', link: '/' },
-            { label: 'Real time', link: '/' },
-        ],
-    },
-    {
-        label: 'Releases',
-        icon: CalendarStats,
-        links: [
-            { label: 'Upcoming releases', link: '/' },
-            { label: 'Previous releases', link: '/' },
-            { label: 'Releases schedule', link: '/' },
-        ],
-    },
-    { label: 'Analytics', icon: PresentationAnalytics },
-    { label: 'Contracts', icon: FileAnalytics },
-    { label: 'Settings', icon: Adjustments },
-    {
-        label: 'Security',
-        icon: Lock,
-        links: [
-            { label: 'Enable 2FA', link: '/' },
-            { label: 'Change password', link: '/' },
-            { label: 'Recovery codes', link: '/' },
-        ],
-    },
-];
-
 interface NavBarPanelProps {
     width: number;
 }
 
+interface NavBarItems {
+    label: string;
+    icon: string;
+    initiallyOpened: boolean;
+    links: [{ label: string; link: string }];
+}
+
 export function NavBarPanel(props: NavBarPanelProps) {
+    const { data } = useQuery<NavBarItems[], Error>(['navbar'], NavigationService.get);
     const { classes } = useStyles();
-    const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
+
+    const links = data?.map((item) => {
+        return (
+            <LinksGroup
+                key={item.label}
+                icon={item.icon}
+                label={item.label}
+                links={!item.links.length ? undefined : item.links}
+            />
+        );
+    });
 
     return (
         <Navbar p="md" className={classes.navbar} width={{ base: props.width }}>

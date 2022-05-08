@@ -1,20 +1,13 @@
-import Dotenv from 'dotenv-webpack';
-import { ESBuildMinifyPlugin } from 'esbuild-loader';
-import ESLintPlugin from 'eslint-webpack-plugin';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import path from 'path';
-import webpack, {
-    Configuration as WebpackConfiguration,
-    HotModuleReplacementPlugin,
-} from 'webpack';
-import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+const path = require('path');
+const webpack = require('webpack');
 
-interface WebPackDevConfiguration extends WebpackConfiguration {
-    devServer?: WebpackDevServerConfiguration;
-}
+const Dotenv = require('dotenv-webpack');
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
+const ESLintPlugin = require('eslint-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const config: WebPackDevConfiguration = {
+module.exports = {
     mode: 'development',
     output: {
         publicPath: '/',
@@ -54,11 +47,19 @@ const config: WebPackDevConfiguration = {
         }),
         new HtmlWebpackPlugin({
             template: 'src/Index.html',
+            minify: {
+                minifyJS: true,
+                minifyCSS: true,
+                removeComments: true,
+                useShortDoctype: true,
+                collapseWhitespace: true,
+                collapseInlineTagWhitespace: true,
+            },
         }),
         new ForkTsCheckerWebpackPlugin({
             async: false,
         }),
-        new HotModuleReplacementPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
         new webpack.ProvidePlugin({
             process: 'process/browser',
         }),
@@ -104,5 +105,3 @@ const config: WebPackDevConfiguration = {
         },
     },
 };
-
-export default config;

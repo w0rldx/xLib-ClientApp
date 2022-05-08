@@ -1,13 +1,14 @@
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import Dotenv from 'dotenv-webpack';
-import { ESBuildMinifyPlugin } from 'esbuild-loader';
-import ESLintPlugin from 'eslint-webpack-plugin';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import path from 'path';
-import webpack, { Configuration } from 'webpack';
+const path = require('path');
+const webpack = require('webpack');
 
-const config: Configuration = {
+const Dotenv = require('dotenv-webpack');
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
+const ESLintPlugin = require('eslint-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+module.exports = {
     mode: 'production',
     entry: './src/Index.tsx',
     output: {
@@ -50,6 +51,14 @@ const config: Configuration = {
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: 'src/Index.html',
+            minify: {
+                minifyJS: true,
+                minifyCSS: true,
+                removeComments: true,
+                useShortDoctype: true,
+                collapseWhitespace: true,
+                collapseInlineTagWhitespace: true,
+            },
         }),
         new ForkTsCheckerWebpackPlugin({
             async: false,
@@ -69,5 +78,3 @@ const config: Configuration = {
         ],
     },
 };
-
-export default config;
