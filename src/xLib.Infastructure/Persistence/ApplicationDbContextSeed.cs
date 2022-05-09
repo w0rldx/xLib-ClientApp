@@ -38,7 +38,7 @@ public static class ApplicationDbContextSeed
 
             context.NavigationItems.AddRange(
                 new NavigationItem { Label = "Dashboard", Icon = "ai/AiOutlineDashboard" },
-                new NavigationItem { Label = "Market news", Icon = "AiOutlineProject", InitiallyOpened = true, Links = new List<LinkItem> { link1, link2, link3, link4 } },
+                new NavigationItem { Label = "Market news", Icon = "ai/AiOutlineProject", InitiallyOpened = true, Links = new List<LinkItem> { link1, link2, link3, link4 } },
                 new NavigationItem { Label = "Releases", Icon = "ai/AiOutlineCalendar", Links = new List<LinkItem> { link5, link6, link7 } },
                 new NavigationItem { Label = "Analytics", Icon = "ai/AiOutlineFundProjectionScreen" },
                 new NavigationItem { Label = "Contracts", Icon = "ai/AiOutlineFile" },
