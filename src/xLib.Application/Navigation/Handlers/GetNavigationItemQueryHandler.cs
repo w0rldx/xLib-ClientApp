@@ -42,6 +42,7 @@ public class GetNavigationItemQueryHandler : IRequestHandler<GetNavigationItemQu
                 Label = navigationItem.Label,
                 Icon = navigationItem.Icon,
                 InitiallyOpened = false,
+                Index = navigationItem.Index
             });
         }
 

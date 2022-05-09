@@ -20,6 +20,14 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         modelBuilder.Entity<NavigationItem>().HasMany(x => x.Links);
 
+        modelBuilder.HasSequence<int>("IndexNumbers")
+            .StartsAt(1)
+            .IncrementsBy(1);
+
+        modelBuilder.Entity<NavigationItem>()
+            .Property(x => x.Index)
+            .HasDefaultValueSql("nextval('\"IndexNumbers\"')");
+
         base.OnModelCreating(modelBuilder);
     }
 

@@ -11,11 +11,11 @@ public static class ApplicationDbContextSeed
         if (!context.Books.Any())
         {
             context.Books.AddRange(new Book { Title = "Professional C# 7 and .NET Core 2.0", Publisher = "Wrox Press" },
-                new Book() { Title = "Professional C# 6 and .NET 4.5.1", Publisher = "Wrox Press" },
-                new Book() { Title = "Enterprise Services with the .NET Framework", Publisher = "AWL" },
-                new Book() { Title = "Professional C# 5.0 and the .NET 4.5 Framework", Publisher = "Wrox Press" },
-                new Book() { Title = "C# 5.0 in a Nutshell", Publisher = "O'Reilly" },
-                new Book() { Title = "C# 5.0 Unleashed", Publisher = "O'Reilly" }
+                new Book { Title = "Professional C# 6 and .NET 4.5.1", Publisher = "Wrox Press" },
+                new Book { Title = "Enterprise Services with the .NET Framework", Publisher = "AWL" },
+                new Book { Title = "Professional C# 5.0 and the .NET 4.5 Framework", Publisher = "Wrox Press" },
+                new Book { Title = "C# 5.0 in a Nutshell", Publisher = "O'Reilly" },
+                new Book { Title = "C# 5.0 Unleashed", Publisher = "O'Reilly" }
             );
 
             await context.SaveChangesAsync();
@@ -42,9 +42,9 @@ public static class ApplicationDbContextSeed
                 new NavigationItem { Label = "Releases", Icon = "ai/AiOutlineCalendar", Links = new List<LinkItem> { link5, link6, link7 } },
                 new NavigationItem { Label = "Analytics", Icon = "ai/AiOutlineFundProjectionScreen" },
                 new NavigationItem { Label = "Contracts", Icon = "ai/AiOutlineFile" },
-                new NavigationItem { Label = "Settings", Icon = "ai/AiOutlineSetting" },
-                new NavigationItem { Label = "Security", Icon = "ai/AiOutlineLock", Links = new List<LinkItem> { link8, link9, link10 } }
-                );
+                new NavigationItem { Label = "Security", Icon = "ai/AiOutlineLock", Links = new List<LinkItem> { link8, link9, link10 } },
+                new NavigationItem { Label = "Settings", Icon = "ai/AiOutlineSetting" }
+            );
 
             await context.SaveChangesAsync();
         }
