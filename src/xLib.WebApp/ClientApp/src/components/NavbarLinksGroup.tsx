@@ -1,48 +1,9 @@
-import { Box, Collapse, createStyles, Group, Text, ThemeIcon, UnstyledButton } from '@mantine/core';
+import { Box, Collapse, Group, Text, ThemeIcon, UnstyledButton } from '@mantine/core';
 import React, { useState } from 'react';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
+import { useStyles } from '../styles/NavbarLinksGroupStyle';
 import DynamicIcon from './DynamicIcon';
-
-const useStyles = createStyles((theme) => ({
-    control: {
-        fontWeight: 500,
-        display: 'block',
-        width: '100%',
-        padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
-        fontSize: theme.fontSizes.sm,
-
-        '&:hover': {
-            backgroundColor:
-                theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
-            color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-        },
-    },
-
-    link: {
-        fontWeight: 500,
-        display: 'block',
-        textDecoration: 'none',
-        padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-        paddingLeft: 31,
-        marginLeft: 30,
-        fontSize: theme.fontSizes.sm,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
-        borderLeft: `1px solid ${
-            theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
-        }`,
-
-        '&:hover': {
-            backgroundColor:
-                theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
-            color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-        },
-    },
-
-    chevron: {
-        transition: 'transform 200ms ease',
-    },
-}));
 
 interface LinksGroupProps {
     icon?: string;
@@ -57,14 +18,10 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: LinksG
     const [opened, setOpened] = useState(initiallyOpened || false);
     const ChevronIcon = theme.dir === 'ltr' ? BsChevronRight : BsChevronLeft;
     const items = (hasLinks ? links : []).map((link) => (
-        <Text<'a'>
-            component="a"
-            className={classes.link}
-            href={link.link}
-            key={link.label}
-            onClick={(event) => event.preventDefault()}
-        >
-            {link.label}
+        <Text className={classes.link} key={link.label}>
+            <Link className={classes.linkItem} to={link.link}>
+                {link.label}
+            </Link>
         </Text>
     ));
 

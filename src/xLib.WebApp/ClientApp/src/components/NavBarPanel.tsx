@@ -15,12 +15,17 @@ interface NavBarItems {
     label: string;
     icon: string;
     initiallyOpened: boolean;
+    index: number;
     links: [{ label: string; link: string }];
 }
 
 export function NavBarPanel(props: NavBarPanelProps) {
     const { data } = useQuery<NavBarItems[], Error>(['navbar'], NavigationService.get);
     const { classes } = useStyles();
+
+    data?.sort(function (a, b) {
+        return a.index - b.index;
+    });
 
     const links = data?.map((item) => {
         return (
