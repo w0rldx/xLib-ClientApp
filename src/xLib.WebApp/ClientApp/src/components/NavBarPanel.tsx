@@ -1,6 +1,5 @@
 import { Group, Navbar, ScrollArea } from '@mantine/core';
 import React from 'react';
-import { useQuery } from 'react-query';
 import NavigationService from '../services/NavigationService';
 import { useStyles } from '../styles/NavBarPanelStyle';
 import { LogoContainer } from './LogoContainer';
@@ -11,16 +10,21 @@ interface NavBarPanelProps {
     width: number;
 }
 
-interface NavBarItems {
+interface NavigationItem {
     label: string;
     icon: string;
-    initiallyOpened: boolean;
+    initiallyOpened?: boolean;
     index: number;
-    links: [{ label: string; link: string }];
+    links: NavBarLinkItem[];
+}
+
+interface NavBarLinkItem {
+    label: string;
+    link: string;
 }
 
 export function NavBarPanel(props: NavBarPanelProps) {
-    const { data } = useQuery<NavBarItems[], Error>(['navbar'], NavigationService.get);
+    const data: NavigationItem[] = NavigationService.getNavigation();
     const { classes } = useStyles();
 
     data?.sort(function (a, b) {
