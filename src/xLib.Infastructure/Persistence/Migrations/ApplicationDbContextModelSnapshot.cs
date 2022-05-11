@@ -22,8 +22,6 @@ namespace xLib.Infastructure.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.HasSequence<int>("IndexNumbers");
-
             modelBuilder.Entity("xLib.Domain.Entities.Book", b =>
                 {
                     b.Property<Guid>("Id")
@@ -94,69 +92,6 @@ namespace xLib.Infastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Books");
-                });
-
-            modelBuilder.Entity("xLib.Domain.Entities.Navigation.LinkItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Link")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("NavigationItemId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NavigationItemId");
-
-                    b.ToTable("LinkItems");
-                });
-
-            modelBuilder.Entity("xLib.Domain.Entities.Navigation.NavigationItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Icon")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValueSql("nextval('\"IndexNumbers\"')");
-
-                    b.Property<bool>("InitiallyOpened")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("NavigationItems");
-                });
-
-            modelBuilder.Entity("xLib.Domain.Entities.Navigation.LinkItem", b =>
-                {
-                    b.HasOne("xLib.Domain.Entities.Navigation.NavigationItem", null)
-                        .WithMany("Links")
-                        .HasForeignKey("NavigationItemId");
-                });
-
-            modelBuilder.Entity("xLib.Domain.Entities.Navigation.NavigationItem", b =>
-                {
-                    b.Navigation("Links");
                 });
 #pragma warning restore 612, 618
         }

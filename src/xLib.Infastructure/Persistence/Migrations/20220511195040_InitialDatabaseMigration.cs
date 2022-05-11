@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace xLib.Infastructure.Persistence.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialDatabaseMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

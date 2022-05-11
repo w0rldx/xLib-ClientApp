@@ -16,9 +16,6 @@
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Mappings\" />
     <Folder Include="Common\Models\" />
-    <Folder Include="Navigation\Commands\" />
-    <Folder Include="Navigation\Handlers\" />
-    <Folder Include="Navigation\Queries\" />
   </ItemGroup>
 
   <ItemGroup>
