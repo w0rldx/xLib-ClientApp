@@ -1,16 +1,11 @@
 import { AppShell } from '@mantine/core';
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import { useStyles } from '../styles/SiteLayoutStyle';
 import { NavBarPanel } from './NavBarPanel';
 import { TopBar } from './TopBar';
 
-type Props = {
-    children?: JSX.Element | JSX.Element[];
-    topBar?: React.ReactNode;
-    sidePanel?: React.ReactNode;
-};
-
-function SiteLayout({ children }: Props) {
+function SiteLayout() {
     const { classes } = useStyles();
 
     return (
@@ -28,7 +23,9 @@ function SiteLayout({ children }: Props) {
                 <div className={classes.topBar}>
                     <TopBar height={50} />
                 </div>
-                <div className={classes.content}>{children}</div>
+                <div className={classes.content}>
+                    <Outlet />
+                </div>
             </div>
         </AppShell>
     );

@@ -1,7 +1,7 @@
 import { Box, Collapse, Group, Text, ThemeIcon, UnstyledButton } from '@mantine/core';
 import React, { useState } from 'react';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useStyles } from '../styles/NavbarLinksGroupStyle';
 import DynamicIcon from './DynamicIcon';
 
@@ -9,18 +9,22 @@ interface LinksGroupProps {
     icon?: string;
     label: string;
     initiallyOpened?: boolean;
+    link: string;
     links?: { label: string; link: string }[];
 }
 
-export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: LinksGroupProps) {
+export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link }: LinksGroupProps) {
     const { classes, theme } = useStyles();
     const hasLinks = Array.isArray(links);
+    const hasLink = link !== '' && link.length > 0;
     const [opened, setOpened] = useState(initiallyOpened || false);
     const ChevronIcon = theme.dir === 'ltr' ? BsChevronRight : BsChevronLeft;
-    const items = (hasLinks ? links : []).map((link) => (
-        <Text className={classes.link} key={link.label}>
-            <Link className={classes.linkItem} to={link.link}>
-                {link.label}
+    const navigate = useNavigate();
+
+    const items = (hasLinks ? links : []).map((linkItem) => (
+        <Text className={classes.link} key={linkItem.label}>
+            <Link className={classes.linkItem} to={linkItem.link}>
+                {linkItem.label}
             </Link>
         </Text>
     ));
@@ -37,9 +41,17 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: LinksG
         return <></>;
     };
 
+    const handleClick = () => {
+        if (hasLink) {
+            return navigate(link ? link : '');
+        }
+
+        return setOpened((o) => !o);
+    };
+
     return (
         <>
-            <UnstyledButton onClick={() => setOpened((o) => !o)} className={classes.control}>
+            <UnstyledButton onClick={handleClick} className={classes.control}>
                 <Group position="apart" spacing={0}>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         {iconElement()}

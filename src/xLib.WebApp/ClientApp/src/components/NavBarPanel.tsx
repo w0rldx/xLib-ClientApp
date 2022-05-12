@@ -16,6 +16,7 @@ interface NavigationItem {
     icon: string;
     initiallyOpened?: boolean;
     index: number;
+    link: string;
     links: NavBarLinkItem[];
 }
 
@@ -38,6 +39,7 @@ export function NavBarPanel(props: NavBarPanelProps) {
                 key={item.label}
                 icon={item.icon}
                 label={item.label}
+                link={item.link ? item.link : ''}
                 links={!item.links.length ? undefined : item.links}
             />
         );

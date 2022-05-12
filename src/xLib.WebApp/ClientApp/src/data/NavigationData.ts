@@ -3,6 +3,7 @@ interface NavigationItem {
     icon: string;
     initiallyOpened?: boolean;
     index: number;
+    link: string;
     links: NavBarLinkItem[];
 }
 
@@ -16,6 +17,7 @@ export function getNavigationData(): NavigationItem[] {
         {
             label: 'Dashboard',
             icon: 'ai/AiOutlineDashboard',
+            link: '/',
             links: [],
             index: 0,
             initiallyOpened: true,
@@ -23,22 +25,23 @@ export function getNavigationData(): NavigationItem[] {
         {
             label: 'Market news',
             icon: 'ai/AiOutlineProject',
+            link: '',
             links: [
                 {
                     label: 'Overview',
-                    link: '/',
+                    link: 'overview',
                 },
                 {
                     label: 'Forecasts',
-                    link: '/',
+                    link: 'forecasts',
                 },
                 {
                     label: 'Outlook',
-                    link: '/',
+                    link: 'outlook',
                 },
                 {
                     label: 'Real time',
-                    link: '/',
+                    link: 'realtime',
                 },
             ],
             index: 1,
@@ -46,18 +49,19 @@ export function getNavigationData(): NavigationItem[] {
         {
             label: 'Releases',
             icon: 'ai/AiOutlineCalendar',
+            link: '',
             links: [
                 {
                     label: 'Upcoming releases',
-                    link: '/',
+                    link: 'upcomingreleases',
                 },
                 {
                     label: 'Previous releases',
-                    link: '/',
+                    link: 'previousreleases',
                 },
                 {
                     label: 'Releases schedule',
-                    link: '/',
+                    link: 'releasesschedule',
                 },
             ],
             index: 2,
@@ -65,30 +69,33 @@ export function getNavigationData(): NavigationItem[] {
         {
             label: 'Analytics',
             icon: 'ai/AiOutlineFundProjectionScreen',
+            link: 'Analytics',
             links: [],
             index: 3,
         },
         {
             label: 'Contracts',
             icon: 'ai/AiOutlineFile',
+            link: 'Contracts',
             links: [],
             index: 4,
         },
         {
             label: 'Security',
             icon: 'ai/AiOutlineLock',
+            link: '',
             links: [
                 {
                     label: 'Enable 2FA',
-                    link: '/',
+                    link: '2fa',
                 },
                 {
                     label: 'Change password',
-                    link: '/',
+                    link: 'changepassword',
                 },
                 {
                     label: 'Recovery codes',
-                    link: '/',
+                    link: 'recoverycodes',
                 },
             ],
             index: 5,
@@ -96,6 +103,7 @@ export function getNavigationData(): NavigationItem[] {
         {
             label: 'Settings',
             icon: 'ai/AiOutlineSetting',
+            link: '',
             links: [],
             index: 6,
         },

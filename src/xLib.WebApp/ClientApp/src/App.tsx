@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { Route, Routes } from 'react-router-dom';
 import SiteLayout from './components/SiteLayout';
 import Home from './pages/Home';
+import NoPage from './pages/NoPage';
 import './scss/Index.scss';
 
 const queryClient = new QueryClient();
@@ -22,12 +23,13 @@ function App() {
                     toggleColorScheme={toggleColorScheme}
                 >
                     <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-                        <SiteLayout>
-                            <Routes>
-                                <Route path="/" element={<Home />} />
-                            </Routes>
-                            <ReactQueryDevtools initialIsOpen={false} />
-                        </SiteLayout>
+                        <Routes>
+                            <Route path="/" element={<SiteLayout />}>
+                                <Route index element={<Home />} />
+                                <Route path="*" element={<NoPage />} />
+                            </Route>
+                        </Routes>
+                        <ReactQueryDevtools initialIsOpen={false} />
                     </MantineProvider>
                 </ColorSchemeProvider>
             </QueryClientProvider>
