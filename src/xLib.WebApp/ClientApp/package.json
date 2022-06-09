@@ -3,6 +3,8 @@
     "version": "0.0.1",
     "description": "",
     "scripts": {
+        "tauri": "tauri",
+        "dev": "pnpm tauri dev",
         "start": "webpack serve --config webpack.dev.config.ts",
         "build": "webpack --config webpack.prod.config.ts",
         "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore",
@@ -12,6 +14,7 @@
     "author": "",
     "license": "MIT",
     "devDependencies": {
+        "@tauri-apps/cli": "1.0.0-rc.13",
         "@types/dotenv-webpack": "^7.0.3",
         "@types/loadable__component": "^5.13.4",
         "@types/node": "^17.0.35",
@@ -63,6 +66,7 @@
         "@mantine/modals": "^4.2.6",
         "@mantine/notifications": "^4.2.6",
         "@mantine/spotlight": "^4.2.6",
+        "@tauri-apps/api": "1.0.0-rc.6",
         "axios": "^0.27.2",
         "dayjs": "^1.11.2",
         "process": "^0.11.10",
