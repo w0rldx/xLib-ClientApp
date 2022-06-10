@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using xLib.Application;
 using xLib.Infastructure;
 using xLib.Infastructure.Persistence;
+using xLib.WebApp;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -9,48 +9,40 @@ var configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(configuration);
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-// Force lower case on routes
-builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+builder.Services.AddWebApiServices();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
+    //app.UseMigrationsEndPoint();
+    
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    using (var scope = app.Services.CreateScope())
+    {
+        var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
+        await initialiser.InitialiseAsync();
+        await initialiser.SeedAsync();
+    }
+}
+else
+{
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
+app.UseHealthChecks("/health");
+
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
 
 app.UseAuthorization();
 
 app.MapControllers();
-
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    try
-    {
-        var context = services.GetRequiredService<ApplicationDbContext>();
-
-        if (context.Database.IsNpgsql())
-        {
-            context.Database.Migrate();
-        }
-
-        await ApplicationDbContextSeed.SeedSampleDataAsync(context);
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine(ex);
-    }
-}
 
 app.Run();
