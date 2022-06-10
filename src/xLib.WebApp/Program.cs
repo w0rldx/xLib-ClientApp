@@ -9,7 +9,7 @@ var configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(configuration);
-builder.Services.AddWebApiServices();
+builder.Services.AddWebApiServices(configuration);
 
 var app = builder.Build();
 
@@ -18,7 +18,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     //app.UseMigrationsEndPoint();
-    
+
     app.UseSwagger();
     app.UseSwaggerUI();
 
@@ -42,6 +42,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 

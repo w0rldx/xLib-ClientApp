@@ -21,7 +21,7 @@ public class ApplicationDbContextInitialiser
         _userManager = userManager;
         _roleManager = roleManager;
     }
-    
+
     public async Task InitialiseAsync()
     {
         try
@@ -64,7 +64,7 @@ public class ApplicationDbContextInitialiser
         await _roleManager.CreateAsync(new IdentityRole(Roles.Administrator.ToString()));
         await _roleManager.CreateAsync(new IdentityRole(Roles.User.ToString()));
         //Seed Default User
-        var defaultUser = new ApplicationUser { UserName = DefaultUser.default_username, Email = DefaultUser.default_email, EmailConfirmed = true, PhoneNumberConfirmed = true };
+        var defaultUser = new ApplicationUser { UserName = DefaultUser.default_username, Email = DefaultUser.default_email, EmailConfirmed = true, PhoneNumberConfirmed = true, FirstName = "Default FirstName", LastName = "Default LastName" };
         if (_userManager.Users.All(u => u.Id != defaultUser.Id))
         {
             await _userManager.CreateAsync(defaultUser, DefaultUser.default_password);
