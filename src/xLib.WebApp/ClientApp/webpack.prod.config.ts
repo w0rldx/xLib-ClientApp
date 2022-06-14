@@ -22,12 +22,9 @@ module.exports = {
             {
                 test: /\.(ts|js)x?$/i,
                 exclude: /node_modules/,
-                use: {
-                    loader: 'esbuild-loader',
-                    options: {
-                        loader: 'tsx',
-                        target: 'es2022',
-                    },
+                loader: 'babel-loader',
+                options: {
+                    rootMode: 'upward',
                 },
             },
             {
@@ -65,16 +62,10 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({
             process: 'process/browser',
+            React: 'react',
         }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development'),
         }),
     ],
-    optimization: {
-        minimizer: [
-            new ESBuildMinifyPlugin({
-                target: 'es2022',
-            }),
-        ],
-    },
 };
