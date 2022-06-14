@@ -5,6 +5,7 @@ specifiers:
   '@mantine/core': ^4.2.9
   '@mantine/dates': ^4.2.9
   '@mantine/dropzone': ^4.2.9
+  '@mantine/form': ^4.2.9
   '@mantine/hooks': ^4.2.9
   '@mantine/modals': ^4.2.9
   '@mantine/notifications': ^4.2.9
@@ -68,6 +69,7 @@ dependencies:
   '@mantine/core': 4.2.9_gd7jkzjdjnreghvow2btngktzu
   '@mantine/dates': 4.2.9_5rgpr3xgp2rp2wnyvmbipfq5su
   '@mantine/dropzone': 4.2.9_tehdf7rr6bwzlt75xhfdimskou
+  '@mantine/form': 4.2.9_react@18.1.0
   '@mantine/hooks': 4.2.9_react@18.1.0
   '@mantine/modals': 4.2.9_tehdf7rr6bwzlt75xhfdimskou
   '@mantine/notifications': 4.2.9_tehdf7rr6bwzlt75xhfdimskou
@@ -1665,6 +1667,14 @@ packages:
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
       react-dropzone: 11.7.1_react@18.1.0
+    dev: false
+
+  /@mantine/form/4.2.9_react@18.1.0:
+    resolution: {integrity: sha512-tr9DwZBNM404zKNk+5l7RWBxn23K0m6irRmdMeWtruxNRbHmpWncqJ68WExTzvJMk/tWaVchJwXmq7M2DO+RxQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 18.1.0
     dev: false
 
   /@mantine/hooks/4.2.9_react@18.1.0:

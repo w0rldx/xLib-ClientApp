@@ -1,12 +1,25 @@
 import { Button, Card, Divider, PasswordInput, Text, TextInput } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import React from 'react';
-import { AiFillUnlock } from 'react-icons/ai';
+import { AiFillLock } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import DarkmodeToggle from '../components/DarkmodeToggle';
 import { useStyles } from '../styles/pages/RegisterPage';
 
 function Register() {
     const { classes } = useStyles();
+    const form = useForm({
+        initialValues: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+        },
+
+        validate: {
+            email: (value: string) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+        },
+    });
     return (
         <>
             <div className={classes.container}>
@@ -23,11 +36,34 @@ function Register() {
                                 <Divider my="sm" />
                             </div>
                         </Card.Section>
-                        <div className={classes.cardContent}>
-                            <TextInput placeholder="First Name" label="First Name:" required />
-                            <TextInput placeholder="Last Name" label="Last Name:" required />
-                            <TextInput placeholder="Your email" label="Email:" required />
-                            <PasswordInput placeholder="Password" label="Password:" required />
+                        <form
+                            className={classes.cardContent}
+                            onSubmit={form.onSubmit((values: unknown) => console.log(values))}
+                        >
+                            <TextInput
+                                placeholder="First Name"
+                                label="First Name:"
+                                {...form.getInputProps('firstName')}
+                                required
+                            />
+                            <TextInput
+                                placeholder="Last Name"
+                                label="Last Name:"
+                                {...form.getInputProps('lastName')}
+                                required
+                            />
+                            <TextInput
+                                placeholder="Your email"
+                                label="Email:"
+                                {...form.getInputProps('email')}
+                                required
+                            />
+                            <PasswordInput
+                                placeholder="Password"
+                                label="Password:"
+                                {...form.getInputProps('password')}
+                                required
+                            />
                             <div className={classes.loginContainer}>
                                 <Text size="sm">Already have an account?</Text>
                                 <Link className={classes.link} to="/login">
@@ -35,10 +71,10 @@ function Register() {
                                 </Link>
                             </div>
 
-                            <Button leftIcon={<AiFillUnlock />} loading>
+                            <Button type="submit" leftIcon={<AiFillLock />}>
                                 Register
                             </Button>
-                        </div>
+                        </form>
                     </Card>
                 </div>
             </div>
