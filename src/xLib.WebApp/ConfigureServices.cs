@@ -44,7 +44,7 @@ public static class ConfigureServices
                 };
             });
 
-        // Customise default API behaviour
+        // Customize default API behavior
         services.Configure<ApiBehaviorOptions>(options =>
             options.SuppressModelStateInvalidFilter = true);
 

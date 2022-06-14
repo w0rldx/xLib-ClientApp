@@ -1,7 +1,7 @@
 import { ActionIcon, Group, useMantineColorScheme } from '@mantine/core';
 import React from 'react';
 import { BsMoonStars, BsSun } from 'react-icons/bs';
-import { useStyles } from '../styles/TopBarStyle';
+import { useStyles } from '../styles/components/TopBarStyle';
 
 interface TopBarProps {
     height: number;
