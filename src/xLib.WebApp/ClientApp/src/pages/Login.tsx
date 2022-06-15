@@ -1,16 +1,17 @@
 import { Button, Card, Divider, PasswordInput, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import React from 'react';
+import { showNotification } from '@mantine/notifications';
+import { AxiosError } from 'axios';
 import { AiFillUnlock } from 'react-icons/ai';
-import { useQuery } from 'react-query';
+import { BiErrorAlt } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import DarkmodeToggle from '../components/DarkmodeToggle';
+import { IUserResponse } from '../models/user';
 import UserService from '../services/UserService';
 import { useStyles } from '../styles/pages/LoginPage';
 
 function Login() {
     const { classes } = useStyles();
-    const { data } = useQuery<NavigationItem[]>(['navbarItems'], UserService.getUserToken);
 
     const form = useForm({
         initialValues: {
@@ -24,8 +25,37 @@ function Login() {
     });
 
     async function onSubmit(values: typeof form.values) {
-        const value = await UserService.getUserToken(values.email, values.password);
-        console.log(value);
+        try {
+            const value: IUserResponse = await UserService.getUserToken({
+                email: values.email,
+                password: values.password,
+            });
+            if (value) {
+                form.setValues({
+                    email: '',
+                    password: '',
+                });
+            }
+            console.log(value);
+        } catch (e: unknown) {
+            if (e instanceof AxiosError) {
+                if (!e?.response) {
+                    showNotification({
+                        title: 'Error',
+                        message: `${e?.response}`,
+                        color: 'red',
+                        icon: <BiErrorAlt />,
+                    });
+                } else {
+                    showNotification({
+                        title: 'Error',
+                        message: `${e}`,
+                        color: 'red',
+                        icon: <BiErrorAlt />,
+                    });
+                }
+            }
+        }
     }
 
     return (
