@@ -7,17 +7,19 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { Route, Routes } from 'react-router-dom';
 import SiteLayout from './components/SiteLayout';
 import AuthContext from './context/AuthContext';
-import { IUserResponse } from './interfaces/user';
+import { ITokenResponse, IUser } from './interfaces/user';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import NoPage from './pages/NoPage';
 import Register from './pages/Register';
 import './scss/Index.scss';
+import ProtectedRoute from './utils/ProtectedRoute';
 
 const queryClient = new QueryClient();
 
 function App() {
-    const [user, setUser] = useState<IUserResponse | null>(null);
+    const [token, setToken] = useState<ITokenResponse | null>(null);
+    const [user, setUser] = useState<IUser | null>(null);
     const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
 
     const toggleColorScheme = (value?: ColorScheme) =>
@@ -26,7 +28,7 @@ function App() {
     return (
         <>
             <div className="App">
-                <AuthContext.Provider value={{ user, setUser }}>
+                <AuthContext.Provider value={{ token, setToken, user, setUser }}>
                     <QueryClientProvider client={queryClient}>
                         <ColorSchemeProvider
                             colorScheme={colorScheme}
@@ -42,8 +44,22 @@ function App() {
                                         <Route path="/register" element={<Register />} />
                                         <Route path="/login" element={<Login />} />
                                         <Route path="/" element={<SiteLayout />}>
-                                            <Route index element={<Home />} />
-                                            <Route path="*" element={<NoPage />} />
+                                            <Route
+                                                index
+                                                element={
+                                                    <ProtectedRoute>
+                                                        <Home />
+                                                    </ProtectedRoute>
+                                                }
+                                            />
+                                            <Route
+                                                path="*"
+                                                element={
+                                                    <ProtectedRoute>
+                                                        <NoPage />
+                                                    </ProtectedRoute>
+                                                }
+                                            />
                                         </Route>
                                     </Routes>
                                 </NotificationsProvider>

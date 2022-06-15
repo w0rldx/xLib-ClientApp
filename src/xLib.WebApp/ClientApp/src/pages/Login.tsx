@@ -5,16 +5,17 @@ import { AxiosError } from 'axios';
 import { useContext, useState } from 'react';
 import { AiFillUnlock } from 'react-icons/ai';
 import { BiErrorAlt } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DarkmodeToggle from '../components/DarkmodeToggle';
 import AuthContext from '../context/AuthContext';
-import { IUserResponse } from '../interfaces/user';
+import { ITokenResponse, IUser } from '../interfaces/user';
 import UserService from '../services/UserService';
 import { useStyles } from '../styles/pages/LoginPage';
 
 function Login() {
     const { classes } = useStyles();
-    const { setUser } = useContext(AuthContext);
+    const { setToken, setUser } = useContext(AuthContext);
+    const navigate = useNavigate();
     const [loginButton, setLoginButton] = useState<JSX.Element>(loginButtonElement(false));
 
     function loginButtonElement(loading: boolean) {
@@ -50,35 +51,38 @@ function Login() {
             message: errorMessage,
             color: 'red',
             icon: <BiErrorAlt />,
+            radius: 'md',
+            autoClose: 2500,
         });
     }
 
     async function onSubmit(values: typeof form.values) {
         try {
             setLoginButton(loginButtonElement(true));
-            const value: IUserResponse = await UserService.getUserToken({
+            const tokenModel: ITokenResponse = await UserService.loginUser({
                 email: values.email,
                 password: values.password,
             });
 
-            if (value) {
-                form.setValues({
-                    email: '',
-                    password: '',
-                });
-            }
-            setUser(value);
-            console.log(value);
+            setToken(tokenModel);
+            const user: IUser = await UserService.getUserData(tokenModel.token);
+            setUser(user);
+
+            navigate('/');
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
+                console.log(e);
+
                 if (e.response?.status === 504) {
-                    showErrorNotification(`No internet connection`);
+                    showErrorNotification(`No Server connection`);
                 } else if (e.response?.status === 400) {
                     showErrorNotification(`Missing Username or Password`);
                 } else if (e.response?.status === 401) {
                     showErrorNotification(`Unauthorized`);
+                } else if (e.response?.status === 500) {
+                    showErrorNotification(`Login Failed`);
                 } else {
-                    showErrorNotification(`${e.response?.data}`);
+                    showErrorNotification(`${e.message}`);
                 }
             }
         }
