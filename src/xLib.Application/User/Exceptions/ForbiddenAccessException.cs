@@ -1,4 +1,4 @@
-﻿namespace xLib.Application.Common.Exceptions;
+﻿namespace xLib.Application.User.Exceptions;
 
 public class ForbiddenAccessException : Exception
 {

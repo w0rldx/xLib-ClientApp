@@ -29,7 +29,15 @@ public static class ConfigureServices
 
         services.AddScoped<ApplicationDbContextInitialiser>();
 
-        services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+        services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 5;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>();
 
         services.AddIdentityCore<ApplicationUser>();
 
