@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IUserLoginForm, IUserResponse } from '../models/user';
+import { IUserLoginForm, IUserResponse } from '../interfaces/user';
 
 const apiClient = axios.create({
     baseURL: process.env.WEB_API_URL,
