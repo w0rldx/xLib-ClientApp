@@ -10,6 +10,8 @@ using Settings;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using xLib.Application.Common.Exceptions;
+using xLib.Application.User.ViewModel;
 
 public class UserService : IUserService
 {
@@ -53,12 +55,12 @@ public class UserService : IUserService
     {
         var authenticationModel = new AuthenticationModel();
         var user = await _userManager.FindByEmailAsync(model.Email);
+
         if (user == null)
         {
-            authenticationModel.IsAuthenticated = false;
-            authenticationModel.Message = $"No Accounts Registered with {model.Email}.";
-            return authenticationModel;
+            throw new ForbiddenAccessException();
         }
+
         if (await _userManager.CheckPasswordAsync(user, model.Password))
         {
             authenticationModel.IsAuthenticated = true;
@@ -70,9 +72,8 @@ public class UserService : IUserService
             authenticationModel.Roles = rolesList.ToList();
             return authenticationModel;
         }
-        authenticationModel.IsAuthenticated = false;
-        authenticationModel.Message = $"Incorrect Credentials for user {user.Email}.";
-        return authenticationModel;
+
+        throw new ForbiddenAccessException();
     }
 
     private async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user)
@@ -123,5 +124,22 @@ public class UserService : IUserService
             return $"Role {model.Role} not found.";
         }
         return $"Incorrect Credentials for user {user.Email}.";
+    }
+
+    public async Task<UserModel> GetUserAsync(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+
+        var userVm = new UserModel
+        {
+            Email = user.Email,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Username = user.UserName,
+            Roles = rolesList.ToArray()
+        };
+
+        return userVm;
     }
 }

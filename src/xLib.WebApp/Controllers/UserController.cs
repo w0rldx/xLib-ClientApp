@@ -2,6 +2,7 @@
 
 using Application.Common.Interfaces;
 using Application.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]
@@ -18,6 +19,7 @@ public class UserController : ApiControllerBase
     public async Task<ActionResult> RegisterAsync(RegisterModel model)
     {
         var result = await _userService.RegisterAsync(model);
+        
         return Ok(result);
     }
 
@@ -25,6 +27,7 @@ public class UserController : ApiControllerBase
     public async Task<IActionResult> GetTokenAsync(TokenRequestModel model)
     {
         var result = await _userService.GetTokenAsync(model);
+        
         return Ok(result);
     }
 
@@ -32,6 +35,16 @@ public class UserController : ApiControllerBase
     public async Task<IActionResult> AddRoleAsync(AddRoleModel model)
     {
         var result = await _userService.AddRoleAsync(model);
+        
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("getuser")]
+    public async Task<IActionResult> GetUser(string mail)
+    {
+        var result = await _userService.GetUserAsync(mail);
+        
         return Ok(result);
     }
 }
