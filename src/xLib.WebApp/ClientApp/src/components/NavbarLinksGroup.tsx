@@ -2,7 +2,7 @@ import { Box, Collapse, Group, Text, ThemeIcon, UnstyledButton } from '@mantine/
 import React, { useState } from 'react';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
-import { useStyles } from '../styles/NavbarLinksGroupStyle';
+import { useStyles } from '../styles/components/NavbarLinksGroupStyle';
 import DynamicIcon from './DynamicIcon';
 
 interface LinksGroupProps {

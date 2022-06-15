@@ -2,7 +2,7 @@ import { Group, Navbar, ScrollArea } from '@mantine/core';
 import React from 'react';
 import { useQuery } from 'react-query';
 import NavigationService from '../services/NavigationService';
-import { useStyles } from '../styles/NavBarPanelStyle';
+import { useStyles } from '../styles/components/NavBarPanelStyle';
 import { LogoContainer } from './LogoContainer';
 import { LinksGroup } from './NavbarLinksGroup';
 import { VersionContainer } from './VersionContainer';

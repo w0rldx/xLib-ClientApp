@@ -2,9 +2,11 @@
 
 using Application.Common.Interfaces;
 using Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using xLib.Infastructure.Identity;
 
-public class ApplicationDbContext : DbContext, IApplicationDbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
 {
     public DbSet<Book> Books => Set<Book>();
 

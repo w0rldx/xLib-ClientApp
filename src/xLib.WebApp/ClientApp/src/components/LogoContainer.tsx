@@ -1,6 +1,6 @@
 import { Text } from '@mantine/core';
 import React from 'react';
-import { useStyles } from '../styles/LogoContainerStyle';
+import { useStyles } from '../styles/components/LogoContainerStyle';
 
 interface LogoContainerProps {
     weight: number;

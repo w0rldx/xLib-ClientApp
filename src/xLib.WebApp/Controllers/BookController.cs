@@ -2,9 +2,11 @@
 
 using Application.Book.Queries;
 using Application.Book.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xLib.Application.Book.Commands;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class BookController : ApiControllerBase
