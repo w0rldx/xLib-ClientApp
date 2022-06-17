@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Services;
 using Settings;
 using System.Text;
+using xLib.Application.User.Interfaces;
 using xLib.Infastructure.Persistence;
 
 public static class ConfigureServices

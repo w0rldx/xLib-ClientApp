@@ -1,9 +1,5 @@
-export interface IUserResponse {
-    massage: string;
+export interface ITokenResponse {
     isAuthenticated: boolean;
-    userName: string;
-    email: string;
-    roles: string[];
     token: string;
 }
 
@@ -18,4 +14,12 @@ export interface IUserRegisterFrom {
 export interface IUserLoginForm {
     email: string;
     password: string;
+}
+
+export interface IUser {
+    firstName: string;
+    lastName: string;
+    username: string;
+    roles: string[];
+    email: string;
 }
