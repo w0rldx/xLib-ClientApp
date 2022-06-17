@@ -1,4 +1,4 @@
-﻿namespace xLib.Infastructure.Identity;
+﻿namespace xLib.Application.User.Models;
 
 public class DefaultUser
 {

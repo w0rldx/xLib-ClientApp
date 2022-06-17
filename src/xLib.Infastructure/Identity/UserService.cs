@@ -2,11 +2,11 @@
 
 using Application.Common.Models;
 using Application.User.Exceptions;
-using Infastructure.Identity;
+using Application.User.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Settings;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;

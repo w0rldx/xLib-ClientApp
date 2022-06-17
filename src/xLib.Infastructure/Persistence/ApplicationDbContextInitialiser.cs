@@ -1,10 +1,10 @@
 ﻿namespace xLib.Infastructure.Persistence;
 
+using Application.User.Models;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using xLib.Infastructure.Identity;
 
 public class ApplicationDbContextInitialiser
 {
