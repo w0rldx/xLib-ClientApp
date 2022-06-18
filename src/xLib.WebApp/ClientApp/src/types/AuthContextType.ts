@@ -1,8 +1,8 @@
-import { ITokenResponse, IUser } from '../interfaces/user';
+import { IUser } from '../interfaces/user';
 
 export type AuthContextType = {
-    token: ITokenResponse | null;
-    setToken: (token: ITokenResponse) => void;
+    token: string | null;
+    setToken: (token: string | null) => void;
     user: IUser | null;
-    setUser: (user: IUser) => void;
+    setUser: (user: IUser | null) => void;
 };

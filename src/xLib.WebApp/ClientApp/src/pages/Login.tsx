@@ -1,4 +1,4 @@
-import { Button, Card, Divider, PasswordInput, Text, TextInput } from '@mantine/core';
+import { Button, Card, Checkbox, Divider, PasswordInput, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import { AxiosError } from 'axios';
@@ -8,15 +8,18 @@ import { BiErrorAlt } from 'react-icons/bi';
 import { Link, useNavigate } from 'react-router-dom';
 import DarkmodeToggle from '../components/DarkmodeToggle';
 import AuthContext from '../context/AuthContext';
+import AuthenticatedError from '../exceptions/AuthenticatedError';
 import { ITokenResponse, IUser } from '../interfaces/user';
 import UserService from '../services/UserService';
 import { useStyles } from '../styles/pages/LoginPage';
+import LocalStorageHelper from '../utils/LocalStorageHelper';
 
 function Login() {
     const { classes } = useStyles();
     const { setToken, setUser } = useContext(AuthContext);
     const navigate = useNavigate();
     const [loginButton, setLoginButton] = useState<JSX.Element>(loginButtonElement(false));
+    const [staySignIn, setStaySignIn] = useState<boolean>(false);
 
     function loginButtonElement(loading: boolean) {
         if (loading) {
@@ -64,9 +67,39 @@ function Login() {
                 password: values.password,
             });
 
-            setToken(tokenModel);
-            const user: IUser = await UserService.getUserData(tokenModel.token);
-            setUser(user);
+            if (tokenModel.isAuthenticated) {
+                setToken(tokenModel.token);
+            } else {
+                throw new AuthenticatedError();
+            }
+
+            if (tokenModel) {
+                try {
+                    const userFetchData: IUser = await UserService.getUserData(tokenModel.token);
+                    if (userFetchData) {
+                        setUser(userFetchData);
+                        LocalStorageHelper.setUserLocalStorage(userFetchData);
+                        sessionStorage.setItem('user', JSON.stringify(userFetchData));
+                    } else {
+                        LocalStorageHelper.clearUserLocalStorage();
+                        LocalStorageHelper.clearTokenLocalStorage();
+                    }
+                } catch (error) {
+                    LocalStorageHelper.clearUserLocalStorage();
+                    LocalStorageHelper.clearTokenLocalStorage();
+                }
+            }
+
+            if (staySignIn) {
+                LocalStorageHelper.setTokenLocalStorage(tokenModel.token);
+                LocalStorageHelper.setStaySignedInLocalStorage(true);
+            } else {
+                sessionStorage.setItem('token', tokenModel.token);
+
+                LocalStorageHelper.clearTokenLocalStorage();
+                LocalStorageHelper.clearUserLocalStorage();
+                LocalStorageHelper.setStaySignedInLocalStorage(false);
+            }
 
             navigate('/');
         } catch (e: unknown) {
@@ -84,6 +117,10 @@ function Login() {
                 } else {
                     showErrorNotification(`${e.message}`);
                 }
+            }
+
+            if (e instanceof AuthenticatedError) {
+                showErrorNotification(`Authenticated Error`);
             }
         }
         setLoginButton(loginButtonElement(false));
@@ -123,6 +160,11 @@ function Login() {
                                 label="Password:"
                                 {...form.getInputProps('password')}
                                 required
+                            />
+                            <Checkbox
+                                label="Stay signed in"
+                                checked={staySignIn}
+                                onChange={(event) => setStaySignIn(event.currentTarget.checked)}
                             />
                             <div className={classes.loginContainer}>
                                 <Text size="sm">New to xLib?</Text>

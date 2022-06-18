@@ -1,16 +1,21 @@
 import { ActionIcon, useMantineColorScheme } from '@mantine/core';
-import React from 'react';
 import { BsMoonStars, BsSun } from 'react-icons/bs';
+import LocalStorageHelper from '../utils/LocalStorageHelper';
 
 function DarkmodeToggle() {
     const { colorScheme, toggleColorScheme } = useMantineColorScheme();
     const dark = colorScheme === 'dark';
 
+    const changeColorScheme = () => {
+        toggleColorScheme();
+        LocalStorageHelper.setDarkModeLocalStorage(colorScheme);
+    };
+
     return (
         <ActionIcon
             variant="outline"
             color={dark ? 'yellow' : 'blue'}
-            onClick={() => toggleColorScheme()}
+            onClick={() => changeColorScheme()}
             title="Toggle color scheme"
         >
             {dark ? <BsSun size={18} /> : <BsMoonStars size={18} />}

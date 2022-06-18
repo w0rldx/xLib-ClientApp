@@ -35,8 +35,6 @@ const registerUser = async (userRegisterForm: IUserRegisterFrom): Promise<IToken
 };
 
 const getUserData = async (token: string): Promise<IUser> => {
-    console.log(token);
-
     const response: AxiosResponse<IUser> = await apiClient.get('/user/getuser', {
         headers: { 'Content-type': 'application/json', Authorization: `Bearer ${token}` },
         withCredentials: true,

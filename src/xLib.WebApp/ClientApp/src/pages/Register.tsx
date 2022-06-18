@@ -8,13 +8,13 @@ import { BiErrorAlt } from 'react-icons/bi';
 import { Link, useNavigate } from 'react-router-dom';
 import DarkmodeToggle from '../components/DarkmodeToggle';
 import AuthContext from '../context/AuthContext';
-import { ITokenResponse, IUser } from '../interfaces/user';
+import { ITokenResponse } from '../interfaces/user';
 import UserService from '../services/UserService';
 import { useStyles } from '../styles/pages/RegisterPage';
 
 function Register() {
     const { classes } = useStyles();
-    const { setToken, setUser } = useContext(AuthContext);
+    const { setToken } = useContext(AuthContext);
     const navigate = useNavigate();
     const [registerButton, setRegisterButton] = useState<JSX.Element>(registerButtonElement(false));
 
@@ -70,9 +70,7 @@ function Register() {
                 userName: values.userName,
             });
 
-            setToken(tokenModel);
-            const user: IUser = await UserService.getUserData(tokenModel.token);
-            setUser(user);
+            setToken(tokenModel.token);
 
             navigate('/');
         } catch (e: unknown) {
