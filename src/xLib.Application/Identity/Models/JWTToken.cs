@@ -1,4 +1,4 @@
-﻿namespace xLib.Application.User.Models;
+﻿namespace xLib.Application.Identity.Models;
 
 public class JWTToken
 {

@@ -1,9 +1,9 @@
-﻿namespace xLib.Application.User.Interfaces;
+﻿namespace xLib.Application.Identity.Interfaces;
 
 using Common.Models;
-using xLib.Application.User.ViewModel;
+using ViewModel;
 
-public interface IUserService
+public interface IIdentityService
 {
     Task<AuthenticationModel> RegisterAsync(RegisterModel model);
     Task<AuthenticationModel> GetTokenAsync(LoginModel model);

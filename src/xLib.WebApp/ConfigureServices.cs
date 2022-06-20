@@ -1,19 +1,19 @@
 namespace xLib.WebApp;
 
-using Application.User.Models;
+using Application.Identity.Interfaces;
+using Application.Identity.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Services;
 using System.Text;
-using xLib.Application.User.Interfaces;
 using xLib.Infastructure.Persistence;
 
 public static class ConfigureServices
 {
     public static IServiceCollection AddWebApiServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IIdentityService, IdentityService>();
 
         services.AddHttpContextAccessor();
 

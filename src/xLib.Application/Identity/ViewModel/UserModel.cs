@@ -1,4 +1,4 @@
-﻿namespace xLib.Application.User.ViewModel;
+﻿namespace xLib.Application.Identity.ViewModel;
 
 public class UserModel
 {

@@ -1,4 +1,4 @@
-﻿namespace xLib.Application.User.Models;
+﻿namespace xLib.Application.Identity.Models;
 
 using Microsoft.AspNetCore.Identity;
 

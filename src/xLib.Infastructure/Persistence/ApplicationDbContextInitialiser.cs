@@ -1,6 +1,6 @@
 ﻿namespace xLib.Infastructure.Persistence;
 
-using Application.User.Models;
+using Application.Identity.Models;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

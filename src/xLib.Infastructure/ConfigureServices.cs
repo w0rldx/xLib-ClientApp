@@ -1,7 +1,7 @@
 ﻿namespace xLib.Infastructure;
 
 using Application.Common.Interfaces;
-using Application.User.Models;
+using Application.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
