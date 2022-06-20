@@ -18,7 +18,8 @@ const DynamicIcon: React.FC<IProps> = ({ ...props }) => {
 
     const lib = library.toLowerCase();
     const Icon = loadable(() => import(`react-icons/${lib}/index.js`), {
-        resolveComponent: (el: JSX.Element) => el[iconComponent as keyof JSX.Element],
+        resolveComponent: (el: JSX.Element) =>
+            el[iconComponent as keyof JSX.Element],
     });
 
     const value: IconContext = {

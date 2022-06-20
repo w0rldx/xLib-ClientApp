@@ -2,7 +2,7 @@ import { ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { BsMoonStars, BsSun } from 'react-icons/bs';
 import LocalStorageHelper from '../utils/LocalStorageHelper';
 
-function DarkmodeToggle() {
+function DarkModeToggle() {
     const { colorScheme, toggleColorScheme } = useMantineColorScheme();
     const dark = colorScheme === 'dark';
 
@@ -23,4 +23,4 @@ function DarkmodeToggle() {
     );
 }
 
-export default DarkmodeToggle;
+export default DarkModeToggle;

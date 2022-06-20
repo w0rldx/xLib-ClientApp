@@ -1,5 +1,4 @@
 import { AppShell } from '@mantine/core';
-import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { useStyles } from '../styles/components/SiteLayoutStyle';
 import { NavBarPanel } from './NavBarPanel';
@@ -14,7 +13,9 @@ function SiteLayout() {
             styles={(theme) => ({
                 main: {
                     backgroundColor:
-                        theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+                        theme.colorScheme === 'dark'
+                            ? theme.colors.dark[8]
+                            : theme.colors.gray[0],
                     padding: 0,
                 },
             })}

@@ -1,27 +1,43 @@
-import { Button, Card, Divider, PasswordInput, Text, TextInput } from '@mantine/core';
+import {
+    Button,
+    Card,
+    Divider,
+    PasswordInput,
+    Text,
+    TextInput,
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import { AxiosError } from 'axios';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { AiFillUnlock } from 'react-icons/ai';
 import { BiErrorAlt } from 'react-icons/bi';
 import { Link, useNavigate } from 'react-router-dom';
-import DarkmodeToggle from '../components/DarkmodeToggle';
-import AuthContext from '../context/AuthContext';
+import DarkModeToggle from '../components/DarkModeToggle';
+import AuthenticatedError from '../exceptions/AuthenticatedError';
 import { ITokenResponse } from '../interfaces/user';
 import UserService from '../services/UserService';
+import { useAuthStore } from '../stores/AuthStore';
 import { useStyles } from '../styles/pages/RegisterPage';
+import LocalStorageHelper from '../utils/LocalStorageHelper';
 
 function Register() {
     const { classes } = useStyles();
-    const { setToken } = useContext(AuthContext);
     const navigate = useNavigate();
-    const [registerButton, setRegisterButton] = useState<JSX.Element>(registerButtonElement(false));
+    const [setUser, setToken] = useAuthStore((s) => [s.setUser, s.setToken]);
+    const [registerButton, setRegisterButton] = useState<JSX.Element>(
+        registerButtonElement(false),
+    );
 
     function registerButtonElement(loading: boolean) {
         if (loading) {
             return (
-                <Button type="submit" leftIcon={<AiFillUnlock />} loading disabled>
+                <Button
+                    type="submit"
+                    leftIcon={<AiFillUnlock />}
+                    loading
+                    disabled
+                >
                     Register
                 </Button>
             );
@@ -44,7 +60,8 @@ function Register() {
         },
 
         validate: {
-            email: (value: string) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+            email: (value: string) =>
+                /^\S+@\S+$/.test(value) ? null : 'Invalid email',
         },
     });
 
@@ -70,13 +87,26 @@ function Register() {
                 userName: values.userName,
             });
 
-            setToken(tokenModel.token);
+            LocalStorageHelper.setStaySignedInLocalStorage(false);
+
+            if (tokenModel && tokenModel.isAuthenticated === false) {
+                throw new AuthenticatedError();
+            }
+
+            if (tokenModel) {
+                setToken(tokenModel.token);
+            }
+
+            const userModel = await UserService.getUserData(tokenModel.token);
+            if (userModel) {
+                setUser(userModel);
+            } else {
+                throw new Error('User data not found');
+            }
 
             navigate('/');
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
-                console.log(e);
-
                 if (e.response?.status === 504) {
                     showErrorNotification(`No Server connection`);
                 } else if (e.response?.status === 400) {
@@ -89,6 +119,12 @@ function Register() {
                     showErrorNotification(`${e.message}`);
                 }
             }
+
+            if (e instanceof AuthenticatedError) {
+                showErrorNotification('Authenticated Error');
+            } else if (e instanceof Error) {
+                showErrorNotification(`${e.message}`);
+            }
         }
         setRegisterButton(registerButtonElement(false));
     }
@@ -97,7 +133,7 @@ function Register() {
         <>
             <div className={classes.container}>
                 <div className={classes.header}>
-                    <DarkmodeToggle />
+                    <DarkModeToggle />
                 </div>
                 <div className={classes.cardContainer}>
                     <Card shadow="sm" p="xl">
@@ -111,8 +147,9 @@ function Register() {
                         </Card.Section>
                         <form
                             className={classes.cardContent}
-                            onSubmit={form.onSubmit((values: typeof form.values) =>
-                                onSubmit(values)
+                            onSubmit={form.onSubmit(
+                                (values: typeof form.values) =>
+                                    onSubmit(values),
                             )}
                         >
                             <TextInput

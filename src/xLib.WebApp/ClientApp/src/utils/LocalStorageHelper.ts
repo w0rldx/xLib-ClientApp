@@ -67,12 +67,15 @@ const clearStaySignedInLocalStorage = () => {
 const LocalStorageHelper = {
     setDarkModeLocalStorage,
     getDarkModeLocalStorage,
+
     getTokenLocalStorage,
     setTokenLocalStorage,
     clearTokenLocalStorage,
+
     setUserLocalStorage,
     getUserLocalStorage,
     clearUserLocalStorage,
+
     getStaySignedInLocalStorage,
     setStaySignedInLocalStorage,
     clearStaySignedInLocalStorage,
