@@ -1,7 +1,7 @@
 ﻿namespace xLib.Application.Identity.Interfaces;
 
 using Common.Models;
-using ViewModel;
+using xLib.Application.Identity.ViewModel;
 
 public interface IIdentityService
 {

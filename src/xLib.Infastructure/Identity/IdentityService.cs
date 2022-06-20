@@ -4,7 +4,6 @@ using Application.Common.Models;
 using Application.Identity.Exceptions;
 using Application.Identity.Interfaces;
 using Application.Identity.Models;
-using Application.Identity.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -12,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-
+using xLib.Application.Identity.ViewModel;
 
 public class IdentityService : IIdentityService
 {
@@ -123,6 +122,7 @@ public class IdentityService : IIdentityService
             FirstName = user.FirstName,
             LastName = user.LastName,
             Username = user.UserName,
+            Private = user.Private,
             Roles = rolesList.ToArray()
         };
 
