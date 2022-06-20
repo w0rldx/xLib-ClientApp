@@ -39,7 +39,6 @@ function AppProvider({ children }: Props) {
             setUser(currentUser);
             setToken(currentToken);
         }
-        console.log('currentUser', currentUser);
     }, [getUser, getToken, setUser, setToken]);
 
     const toggleColorScheme = (value?: ColorScheme) =>

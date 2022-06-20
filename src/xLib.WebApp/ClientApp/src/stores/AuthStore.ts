@@ -1,12 +1,12 @@
 import create from 'zustand';
-import { IUser } from '../interfaces/user';
+import { IIdentity } from '../interfaces/Identity';
 import LocalStorageHelper from '../utils/LocalStorageHelper';
 import SessionStorageHelper from '../utils/SessionStorageHelper';
 
 export interface AuthStore {
-    user: IUser | null;
-    getUser: () => IUser | null;
-    setUser: (user: IUser) => void;
+    user: IIdentity | null;
+    getUser: () => IIdentity | null;
+    setUser: (user: IIdentity) => void;
     clearUser: () => void;
 
     token: string | null;
@@ -18,7 +18,7 @@ export interface AuthStore {
 export const useAuthStore = create<AuthStore>((set, get) => ({
     user: null,
     getUser: () => {
-        const user: IUser | null = get().user;
+        const user: IIdentity | null = get().user;
         if (user != null) {
             return user;
         }
@@ -34,7 +34,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         }
         return null;
     },
-    setUser: (user: IUser) => {
+    setUser: (user: IIdentity) => {
         set({ user });
         const staySignIn = LocalStorageHelper.getStaySignedInLocalStorage();
         if (staySignIn === 'true') {

@@ -1,10 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import {
-    ITokenResponse,
-    IUser,
-    IUserLoginForm,
-    IUserRegisterFrom,
-} from '../interfaces/user';
+import { IIdentity } from '../interfaces/Identity';
 
 const apiClient = axios.create({
     baseURL: process.env.WEB_API_URL,
@@ -13,39 +8,9 @@ const apiClient = axios.create({
     },
 });
 
-const loginUser = async (
-    userLoginForm: IUserLoginForm,
-): Promise<ITokenResponse> => {
-    const response: AxiosResponse<ITokenResponse> = await apiClient.post(
-        '/user/loginuser',
-        JSON.stringify(userLoginForm),
-        {
-            headers: { 'Content-type': 'application/json' },
-            withCredentials: true,
-        },
-    );
-
-    return response.data;
-};
-
-const registerUser = async (
-    userRegisterForm: IUserRegisterFrom,
-): Promise<ITokenResponse> => {
-    const response: AxiosResponse<ITokenResponse> = await apiClient.post(
-        '/user/registeruser',
-        JSON.stringify(userRegisterForm),
-        {
-            headers: { 'Content-type': 'application/json' },
-            withCredentials: true,
-        },
-    );
-
-    return response.data;
-};
-
-const getUserData = async (token: string): Promise<IUser> => {
-    const response: AxiosResponse<IUser> = await apiClient.get(
-        '/user/getuser',
+const getSpecificUserData = async (token: string, userName: string) => {
+    const response: AxiosResponse<IIdentity> = await apiClient.get(
+        `/user/getuser/${userName}`,
         {
             headers: {
                 'Content-type': 'application/json',
@@ -59,9 +24,7 @@ const getUserData = async (token: string): Promise<IUser> => {
 };
 
 const UserService = {
-    loginUser,
-    registerUser,
-    getUserData,
+    getSpecificUserData,
 };
 
 export default UserService;

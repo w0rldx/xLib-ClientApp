@@ -19,7 +19,6 @@ export function getUserNavigationData(): NavigationItem[] {
             link: '/user/settings',
             index: 1,
         },
-
         {
             label: 'Sign out',
             icon: 'bi/BiLogOut',

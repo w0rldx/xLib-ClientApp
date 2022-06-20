@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import NoPage from './pages/NoPage';
 import Register from './pages/Register';
+import User from './pages/User';
 import AppProvider from './provider/AppProvider';
 import './scss/Index.scss';
 
@@ -26,6 +27,9 @@ function App() {
                             }
                         >
                             <Route index element={<Home />} />
+                            <Route path="/user" element={<User />}>
+                                <Route path=":userName" element={<User />} />
+                            </Route>
                             <Route path="*" element={<NoPage />} />
                         </Route>
                     </Routes>

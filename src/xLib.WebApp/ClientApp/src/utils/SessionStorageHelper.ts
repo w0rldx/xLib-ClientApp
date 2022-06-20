@@ -1,6 +1,6 @@
-import { IUser } from 'interfaces/user';
+import { IIdentity } from 'interfaces/Identity';
 
-const setUserSessionStorage = (user: IUser) => {
+const setUserSessionStorage = (user: IIdentity) => {
     sessionStorage.setItem('user', JSON.stringify(user));
 };
 
@@ -9,7 +9,7 @@ const getUserSessionStorage = () => {
     if (result === null || result === undefined) {
         return null;
     }
-    return JSON.parse(result) as IUser;
+    return JSON.parse(result) as IIdentity;
 };
 
 const clearUserSessionStorage = () => {

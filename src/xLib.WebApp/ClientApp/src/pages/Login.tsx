@@ -17,8 +17,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import shallow from 'zustand/shallow';
 import DarkModeToggle from '../components/DarkModeToggle';
 import AuthenticatedError from '../exceptions/AuthenticatedError';
-import { ITokenResponse, IUser } from '../interfaces/user';
-import UserService from '../services/UserService';
+import { IIdentity, ITokenResponse } from '../interfaces/Identity';
+import IdentityService from '../services/IdentityService';
 import { useAuthStore } from '../stores/AuthStore';
 import { useStyles } from '../styles/pages/LoginPage';
 import LocalStorageHelper from '../utils/LocalStorageHelper';
@@ -83,7 +83,7 @@ function Login() {
     async function onSubmit(values: typeof form.values) {
         try {
             setLoginButton(loginButtonElement(true));
-            const tokenModel: ITokenResponse = await UserService.loginUser({
+            const tokenModel: ITokenResponse = await IdentityService.loginUser({
                 email: values.email,
                 password: values.password,
             });
@@ -104,9 +104,8 @@ function Login() {
 
             if (tokenModel) {
                 setToken(tokenModel.token);
-                const userFetchData: IUser = await UserService.getUserData(
-                    tokenModel.token,
-                );
+                const userFetchData: IIdentity =
+                    await IdentityService.getUserData(tokenModel.token);
 
                 if (userFetchData) {
                     setUser(userFetchData);
@@ -118,8 +117,6 @@ function Login() {
             navigate('/');
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
-                console.log(e);
-
                 if (e.response?.status === 504) {
                     showErrorNotification('No Server connection');
                 } else if (e.response?.status === 400) {
@@ -131,9 +128,7 @@ function Login() {
                 } else {
                     showErrorNotification(`${e.message}`);
                 }
-            }
-
-            if (e instanceof AuthenticatedError) {
+            } else if (e instanceof AuthenticatedError) {
                 showErrorNotification('Authenticated Error');
             } else if (e instanceof Error) {
                 showErrorNotification(`${e.message}`);

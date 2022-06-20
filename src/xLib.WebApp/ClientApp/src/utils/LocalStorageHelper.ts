@@ -1,4 +1,4 @@
-import { IUser } from './../interfaces/user';
+import { IIdentity } from '../interfaces/Identity';
 const setDarkModeLocalStorage = (colorScheme: string) => {
     if (colorScheme === 'light') {
         localStorage.setItem('colorScheme', 'dark');
@@ -37,10 +37,10 @@ const getUserLocalStorage = () => {
     if (result === null || result === undefined) {
         return null;
     }
-    return JSON.parse(result) as IUser;
+    return JSON.parse(result) as IIdentity;
 };
 
-const setUserLocalStorage = (user: IUser) => {
+const setUserLocalStorage = (user: IIdentity) => {
     localStorage.setItem('user', JSON.stringify(user));
 };
 
