@@ -1,5 +1,11 @@
-import { Divider, Group, Menu, Text, UnstyledButton } from '@mantine/core';
-import { useState } from 'react';
+import {
+    Avatar,
+    Divider,
+    Group,
+    Menu,
+    Text,
+    UnstyledButton,
+} from '@mantine/core';
 import { AiOutlineSetting } from 'react-icons/ai';
 import { BiLogOut } from 'react-icons/bi';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
@@ -16,12 +22,7 @@ function SingedInUser() {
         s.clearToken,
         s.clearUser,
     ]);
-    const [opened, setOpened] = useState(false);
     const ChevronIcon = theme.dir === 'ltr' ? BsChevronRight : BsChevronLeft;
-
-    const handleClick = () => {
-        return setOpened((o) => !o);
-    };
 
     function userLogout() {
         clearToken();
@@ -37,20 +38,25 @@ function SingedInUser() {
         navigate(`/user/${getUser?.username}`);
     }
 
+    const userAvatar = () => {
+        if (getUser?.profilePicture !== '') {
+            return <Avatar radius="xl" />;
+        } else {
+            return <Avatar radius="xl" src={getUser?.profilePicture} />;
+        }
+    };
+
     return (
         <>
             <Menu
-                opened={opened}
                 position="right"
                 withArrow
                 placement="end"
                 className={classes.user}
                 control={
-                    <UnstyledButton
-                        onClick={handleClick}
-                        className={classes.button}
-                    >
+                    <UnstyledButton className={classes.button}>
                         <Group>
+                            {userAvatar()}
                             <div style={{ flex: 1 }}>
                                 <Text size="sm" weight={500}>
                                     {getUser?.firstName +

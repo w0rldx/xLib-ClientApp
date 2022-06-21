@@ -3,11 +3,17 @@ import {
     ColorSchemeProvider,
     MantineProvider,
 } from '@mantine/core';
-import { NotificationsProvider } from '@mantine/notifications';
+import {
+    NotificationsProvider,
+    showNotification,
+} from '@mantine/notifications';
 import { useEffect, useState } from 'react';
+import { BiErrorAlt } from 'react-icons/bi';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { useNavigate } from 'react-router';
 import '../scss/Index.scss';
+import IdentityService from '../services/IdentityService';
 import { useAuthStore } from '../stores/AuthStore';
 import LocalStorageHelper from '../utils/LocalStorageHelper';
 
@@ -18,14 +24,24 @@ type Props = {
 function AppProvider({ children }: Props) {
     const queryClient = new QueryClient();
     const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
-    const [setUser, getUser, setToken, getToken] = useAuthStore((s) => [
-        s.setUser,
-        s.getUser,
-        s.setToken,
-        s.getToken,
-    ]);
+    const navigate = useNavigate();
+    const [setUser, getUser, setToken, getToken, clearToken, clearUser] =
+        useAuthStore((s) => [
+            s.setUser,
+            s.getUser,
+            s.setToken,
+            s.getToken,
+            s.clearToken,
+            s.clearUser,
+        ]);
 
     useEffect(() => {
+        setCachedValuesInGlobalState();
+        checkForValidCachedToken();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    function setCachedValuesInGlobalState() {
         const darkModeLocalStorage =
             LocalStorageHelper.getDarkModeLocalStorage();
         if (darkModeLocalStorage === 'dark') {
@@ -39,7 +55,43 @@ function AppProvider({ children }: Props) {
             setUser(currentUser);
             setToken(currentToken);
         }
-    }, [getUser, getToken, setUser, setToken]);
+    }
+
+    async function checkForValidCachedToken() {
+        const currentCachedToken = getToken();
+        if (currentCachedToken) {
+            try {
+                const isValid = await IdentityService.getUserData(
+                    currentCachedToken,
+                );
+                if (!isValid) {
+                    clearToken();
+                    clearUser();
+                    navigate('/login');
+                }
+            } catch (error) {
+                clearToken();
+                clearUser();
+                navigate('/login');
+                showErrorNotification(error.message);
+            }
+        } else {
+            clearToken();
+            clearUser();
+            navigate('/login');
+        }
+    }
+
+    function showErrorNotification(errorMessage: string) {
+        showNotification({
+            title: 'Error',
+            message: errorMessage,
+            color: 'red',
+            icon: <BiErrorAlt />,
+            radius: 'md',
+            autoClose: 2500,
+        });
+    }
 
     const toggleColorScheme = (value?: ColorScheme) =>
         setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
