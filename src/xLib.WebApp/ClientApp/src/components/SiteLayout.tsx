@@ -10,6 +10,7 @@ function SiteLayout() {
     return (
         <AppShell
             navbar={<NavBarPanel width={250} />}
+            fixed={false}
             styles={(theme) => ({
                 main: {
                     backgroundColor:

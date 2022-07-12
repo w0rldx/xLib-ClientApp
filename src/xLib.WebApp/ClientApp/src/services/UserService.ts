@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { IIdentity } from '../interfaces/Identity';
+import { IUser } from 'interfaces/User';
 
 const apiClient = axios.create({
     baseURL: process.env.WEB_API_URL,
@@ -9,7 +9,7 @@ const apiClient = axios.create({
 });
 
 const getSpecificUserData = async (token: string, userName: string) => {
-    const response: AxiosResponse<IIdentity> = await apiClient.get(
+    const response: AxiosResponse<IUser> = await apiClient.get(
         `/user/getuser/${userName}`,
         {
             headers: {
