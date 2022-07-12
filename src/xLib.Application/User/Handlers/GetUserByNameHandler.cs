@@ -32,11 +32,12 @@ public class GetUserByNameHandler : IRequestHandler<GetUserByNameQuery, UserView
 
         UserViewModel result = new UserViewModel
         {
-            Username = user.UserName,
+            UserName = user.UserName,
             Email = user.Email,
             FirstName = user.FirstName,
             LastName = user.LastName,
-            ProfilePicture = user.ProfilePicture
+            Avatar = user.AvatarPictureUrl,
+            HeaderPicture = user.HeaderPictureUrl,
         };
 
         return result;
