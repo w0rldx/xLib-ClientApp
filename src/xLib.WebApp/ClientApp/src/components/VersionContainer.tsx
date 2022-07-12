@@ -8,7 +8,7 @@ export function VersionContainer() {
                     <Text color="red" inherit component="span">
                         DEV
                     </Text>{' '}
-                    <Text color="gray" inherit component="span">
+                    <Text inherit component="span">
                         {process.env.VERSION}
                     </Text>
                 </Code>

@@ -40,20 +40,22 @@ function SingedInUser() {
 
     const userAvatar = () => {
         if (getUser?.profilePicture !== '') {
-            return <Avatar radius="xl" />;
+            return <Avatar className={classes.avatar} radius="xl" />;
         } else {
-            return <Avatar radius="xl" src={getUser?.profilePicture} />;
+            return (
+                <Avatar
+                    className={classes.avatar}
+                    radius="xl"
+                    src={getUser?.profilePicture}
+                />
+            );
         }
     };
 
     return (
         <>
-            <Menu
-                position="right"
-                withArrow
-                placement="end"
-                className={classes.user}
-                control={
+            <Menu position="right-end" withArrow width={160}>
+                <Menu.Target>
                     <UnstyledButton className={classes.button}>
                         <Group>
                             {userAvatar()}
@@ -75,30 +77,31 @@ function SingedInUser() {
                             />
                         </Group>
                     </UnstyledButton>
-                }
-            >
-                <Menu.Item
-                    icon={<MdOutlineAccountCircle size={14} />}
-                    component="button"
-                    onClick={() => userProfile()}
-                >
-                    Profile
-                </Menu.Item>
-                <Menu.Item
-                    icon={<AiOutlineSetting size={14} />}
-                    component="button"
-                    onClick={() => userSettings()}
-                >
-                    Settings
-                </Menu.Item>
-                <Divider />
-                <Menu.Item
-                    icon={<BiLogOut size={14} />}
-                    component="button"
-                    onClick={() => userLogout()}
-                >
-                    Sign out
-                </Menu.Item>
+                </Menu.Target>
+                <Menu.Dropdown>
+                    <Menu.Item
+                        icon={<MdOutlineAccountCircle size={14} />}
+                        component="button"
+                        onClick={() => userProfile()}
+                    >
+                        Profile
+                    </Menu.Item>
+                    <Menu.Item
+                        icon={<AiOutlineSetting size={14} />}
+                        component="button"
+                        onClick={() => userSettings()}
+                    >
+                        Settings
+                    </Menu.Item>
+                    <Divider />
+                    <Menu.Item
+                        icon={<BiLogOut size={14} />}
+                        component="button"
+                        onClick={() => userLogout()}
+                    >
+                        Sign out
+                    </Menu.Item>
+                </Menu.Dropdown>
             </Menu>
         </>
     );
