@@ -1,5 +1,12 @@
-import { Box, Collapse, Group, Text, ThemeIcon, UnstyledButton } from '@mantine/core';
-import React, { useState } from 'react';
+import {
+    Box,
+    Collapse,
+    Group,
+    Text,
+    ThemeIcon,
+    UnstyledButton,
+} from '@mantine/core';
+import { useState } from 'react';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
 import { useStyles } from '../styles/components/NavbarLinksGroupStyle';
@@ -13,7 +20,13 @@ interface LinksGroupProps {
     links?: { label: string; link: string }[];
 }
 
-export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link }: LinksGroupProps) {
+export function LinksGroup({
+    icon: Icon,
+    label,
+    initiallyOpened,
+    links,
+    link,
+}: LinksGroupProps) {
     const { classes, theme } = useStyles();
     const hasLinks = Array.isArray(links);
     const hasLink = link !== '' && link.length > 0;
@@ -63,7 +76,9 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link }: 
                             size={14}
                             style={{
                                 transform: opened
-                                    ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)`
+                                    ? `rotate(${
+                                          theme.dir === 'rtl' ? -90 : 90
+                                      }deg)`
                                     : 'none',
                             }}
                         />

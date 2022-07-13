@@ -1,4 +1,4 @@
-﻿namespace xLib.Application.User.Exceptions;
+﻿namespace xLib.Application.Identity.Exceptions;
 
 public class EmailAlreadyRegisteredException : Exception
 {

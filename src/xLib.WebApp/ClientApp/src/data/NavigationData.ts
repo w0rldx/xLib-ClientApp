@@ -100,12 +100,5 @@ export function getNavigationData(): NavigationItem[] {
             ],
             index: 5,
         },
-        {
-            label: 'Settings',
-            icon: 'ai/AiOutlineSetting',
-            link: '',
-            links: [],
-            index: 6,
-        },
     ];
 }

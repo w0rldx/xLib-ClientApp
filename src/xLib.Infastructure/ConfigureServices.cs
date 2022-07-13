@@ -1,12 +1,12 @@
 ﻿namespace xLib.Infastructure;
 
 using Application.Common.Interfaces;
+using Application.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence;
-using xLib.Infastructure.Identity;
 
 public static class ConfigureServices
 {

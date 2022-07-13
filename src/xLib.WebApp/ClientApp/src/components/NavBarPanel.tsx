@@ -1,10 +1,10 @@
 import { Group, Navbar, ScrollArea } from '@mantine/core';
-import React from 'react';
 import { useQuery } from 'react-query';
 import NavigationService from '../services/NavigationService';
 import { useStyles } from '../styles/components/NavBarPanelStyle';
 import { LogoContainer } from './LogoContainer';
 import { LinksGroup } from './NavbarLinksGroup';
+import SingedInUser from './SingedInUser';
 import { VersionContainer } from './VersionContainer';
 
 interface NavBarPanelProps {
@@ -26,7 +26,10 @@ interface NavBarLinkItem {
 }
 
 export function NavBarPanel(props: NavBarPanelProps) {
-    const { data } = useQuery<NavigationItem[]>(['navbarItems'], NavigationService.getNavigation);
+    const { data } = useQuery<NavigationItem[]>(
+        ['navbarItems'],
+        NavigationService.getNavigation,
+    );
     const { classes } = useStyles();
 
     data?.sort(function (a, b) {
@@ -54,11 +57,17 @@ export function NavBarPanel(props: NavBarPanelProps) {
                 </Group>
             </Navbar.Section>
 
-            <Navbar.Section grow className={classes.links} component={ScrollArea}>
+            <Navbar.Section
+                grow
+                className={classes.links}
+                component={ScrollArea}
+            >
                 <div className={classes.linksInner}>{links}</div>
             </Navbar.Section>
 
-            <Navbar.Section className={classes.footer}>Footer</Navbar.Section>
+            <Navbar.Section className={classes.footer}>
+                <SingedInUser />
+            </Navbar.Section>
         </Navbar>
     );
 }

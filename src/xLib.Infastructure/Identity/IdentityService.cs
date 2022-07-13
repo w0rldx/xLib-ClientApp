@@ -1,26 +1,26 @@
 ﻿namespace xLib.WebApp.Services;
 
 using Application.Common.Models;
-using Application.User.Exceptions;
-using Infastructure.Identity;
+using Application.Identity.Exceptions;
+using Application.Identity.Interfaces;
+using Application.Identity.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Settings;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using xLib.Application.User.Interfaces;
-using xLib.Application.User.ViewModel;
+using xLib.Application.Identity.ViewModel;
 
-public class UserService : IUserService
+public class IdentityService : IIdentityService
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly JWTToken _jwt;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public UserService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptions<JWTToken> jwt, IHttpContextAccessor httpContextAccessor)
+    public IdentityService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptions<JWTToken> jwt, IHttpContextAccessor httpContextAccessor)
     {
         _userManager = userManager;
         _roleManager = roleManager;
@@ -122,6 +122,7 @@ public class UserService : IUserService
             FirstName = user.FirstName,
             LastName = user.LastName,
             Username = user.UserName,
+            Private = user.Private,
             Roles = rolesList.ToArray()
         };
 

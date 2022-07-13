@@ -1,16 +1,18 @@
-import { useContext } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import AuthContext from '../context/AuthContext';
+import { useAuthStore } from '../stores/AuthStore';
 
 type Props = {
     children: JSX.Element;
 };
 
 function ProtectedRoute({ children }: Props) {
-    const { token, user } = useContext(AuthContext);
     const location = useLocation();
+    const [getUser, getToken] = useAuthStore((s) => [s.getUser, s.getToken]);
 
-    if (token === null || user === null) {
+    const currentUser = getUser();
+    const currentToken = getToken();
+
+    if (currentUser === null || currentToken === null) {
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
 

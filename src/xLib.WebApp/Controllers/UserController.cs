@@ -1,51 +1,21 @@
-﻿namespace xLib.WebApp.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
 
-using Application.Common.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using xLib.Application.User.Interfaces;
-
-[Route("api/[controller]")]
-[ApiController]
-public class UserController : ApiControllerBase
+namespace xLib.WebApp.Controllers
 {
-    private readonly IUserService _userService;
-    public UserController(IUserService userService)
-    {
-        _userService = userService;
-    }
+    using Application.User.Queries;
+    using Microsoft.AspNetCore.Authorization;
 
-    [HttpPost("registerUser")]
-    public async Task<ActionResult> RegisterAsync(RegisterModel model)
-    {
-        var result = await _userService.RegisterAsync(model);
-
-        return Ok(result);
-    }
-
-    [HttpPost("loginUser")]
-    public async Task<IActionResult> GetTokenAsync(LoginModel model)
-    {
-        var result = await _userService.GetTokenAsync(model);
-
-        return Ok(result);
-    }
-
+    [Route("api/[controller]")]
     [Authorize]
-    [HttpGet("getUser")]
-    public async Task<IActionResult> GetUser()
+    [ApiController]
+    public class UserController : ApiControllerBase
     {
-        var result = await _userService.GetUserDetailsAsync();
-
-        return Ok(result);
-    }
-
-    [Authorize]
-    [HttpPost("addRole")]
-    public async Task<IActionResult> AddRoleAsync(AddRoleModel model)
-    {
-        var result = await _userService.AddRoleAsync(model);
-
-        return Ok(result);
+        [Authorize]
+        [HttpGet("getuser/{userName}")]
+        public async Task<IActionResult> GetUserByNameAsync(string userName)
+        {
+            var userProfile = await Mediator.Send(new GetUserByNameQuery(userName));
+            return Ok(userProfile);
+        }
     }
 }

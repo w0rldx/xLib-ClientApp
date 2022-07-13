@@ -1,27 +1,50 @@
-import { Button, Card, Divider, PasswordInput, Text, TextInput } from '@mantine/core';
+import {
+    Button,
+    Card,
+    Checkbox,
+    Divider,
+    PasswordInput,
+    Text,
+    TextInput,
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import { AxiosError } from 'axios';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { AiFillUnlock } from 'react-icons/ai';
 import { BiErrorAlt } from 'react-icons/bi';
 import { Link, useNavigate } from 'react-router-dom';
-import DarkmodeToggle from '../components/DarkmodeToggle';
-import AuthContext from '../context/AuthContext';
-import { ITokenResponse, IUser } from '../interfaces/user';
-import UserService from '../services/UserService';
+import shallow from 'zustand/shallow';
+import DarkModeToggle from '../components/DarkModeToggle';
+import AuthenticatedError from '../exceptions/AuthenticatedError';
+import { IIdentity, ITokenResponse } from '../interfaces/Identity';
+import IdentityService from '../services/IdentityService';
+import { useAuthStore } from '../stores/AuthStore';
 import { useStyles } from '../styles/pages/LoginPage';
+import LocalStorageHelper from '../utils/LocalStorageHelper';
+import SessionStorageHelper from '../utils/SessionStorageHelper';
 
 function Login() {
     const { classes } = useStyles();
-    const { setToken, setUser } = useContext(AuthContext);
+    const { setToken, setUser } = useAuthStore(
+        (s) => ({ setToken: s.setToken, setUser: s.setUser }),
+        shallow,
+    );
     const navigate = useNavigate();
-    const [loginButton, setLoginButton] = useState<JSX.Element>(loginButtonElement(false));
+    const [loginButton, setLoginButton] = useState<JSX.Element>(
+        loginButtonElement(false),
+    );
+    const [staySignIn, setStaySignIn] = useState<boolean>(false);
 
     function loginButtonElement(loading: boolean) {
         if (loading) {
             return (
-                <Button type="submit" leftIcon={<AiFillUnlock />} loading disabled>
+                <Button
+                    type="submit"
+                    leftIcon={<AiFillUnlock />}
+                    loading
+                    disabled
+                >
                     Login
                 </Button>
             );
@@ -41,7 +64,8 @@ function Login() {
         },
 
         validate: {
-            email: (value: string) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+            email: (value: string) =>
+                /^\S+@\S+$/.test(value) ? null : 'Invalid email',
         },
     });
 
@@ -59,31 +83,55 @@ function Login() {
     async function onSubmit(values: typeof form.values) {
         try {
             setLoginButton(loginButtonElement(true));
-            const tokenModel: ITokenResponse = await UserService.loginUser({
+            const tokenModel: ITokenResponse = await IdentityService.loginUser({
                 email: values.email,
                 password: values.password,
             });
 
-            setToken(tokenModel);
-            const user: IUser = await UserService.getUserData(tokenModel.token);
-            setUser(user);
+            if (tokenModel && tokenModel.isAuthenticated === false) {
+                throw new AuthenticatedError();
+            }
+
+            if (staySignIn) {
+                LocalStorageHelper.setStaySignedInLocalStorage(true);
+            } else {
+                LocalStorageHelper.clearTokenLocalStorage();
+                LocalStorageHelper.clearUserLocalStorage();
+                SessionStorageHelper.clearTokenSessionStorage();
+                SessionStorageHelper.clearUserSessionStorage();
+                LocalStorageHelper.setStaySignedInLocalStorage(false);
+            }
+
+            if (tokenModel) {
+                setToken(tokenModel.token);
+                const userFetchData: IIdentity =
+                    await IdentityService.getUserData(tokenModel.token);
+
+                if (userFetchData) {
+                    setUser(userFetchData);
+                } else {
+                    throw new Error('User data not found');
+                }
+            }
 
             navigate('/');
         } catch (e: unknown) {
             if (e instanceof AxiosError) {
-                console.log(e);
-
                 if (e.response?.status === 504) {
-                    showErrorNotification(`No Server connection`);
+                    showErrorNotification('No Server connection');
                 } else if (e.response?.status === 400) {
-                    showErrorNotification(`Missing Username or Password`);
+                    showErrorNotification('Missing Username or Password');
                 } else if (e.response?.status === 401) {
-                    showErrorNotification(`Unauthorized`);
+                    showErrorNotification('Unauthorized');
                 } else if (e.response?.status === 500) {
-                    showErrorNotification(`Login Failed`);
+                    showErrorNotification('Login Failed');
                 } else {
                     showErrorNotification(`${e.message}`);
                 }
+            } else if (e instanceof AuthenticatedError) {
+                showErrorNotification('Authenticated Error');
+            } else if (e instanceof Error) {
+                showErrorNotification(`${e.message}`);
             }
         }
         setLoginButton(loginButtonElement(false));
@@ -93,7 +141,7 @@ function Login() {
         <>
             <div className={classes.container}>
                 <div className={classes.header}>
-                    <DarkmodeToggle />
+                    <DarkModeToggle />
                 </div>
                 <div className={classes.cardContainer}>
                     <Card shadow="sm" p="xl">
@@ -108,8 +156,9 @@ function Login() {
 
                         <form
                             className={classes.cardContent}
-                            onSubmit={form.onSubmit((values: typeof form.values) =>
-                                onSubmit(values)
+                            onSubmit={form.onSubmit(
+                                (values: typeof form.values) =>
+                                    onSubmit(values),
                             )}
                         >
                             <TextInput
@@ -123,6 +172,13 @@ function Login() {
                                 label="Password:"
                                 {...form.getInputProps('password')}
                                 required
+                            />
+                            <Checkbox
+                                label="Stay signed in"
+                                checked={staySignIn}
+                                onChange={(event) =>
+                                    setStaySignIn(event.currentTarget.checked)
+                                }
                             />
                             <div className={classes.loginContainer}>
                                 <Text size="sm">New to xLib?</Text>
