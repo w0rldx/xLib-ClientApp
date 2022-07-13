@@ -1,46 +1,63 @@
 ﻿namespace xLib.Application.User.Handlers;
 
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Queries;
 using ViewModels;
 using xLib.Application.Common.Interfaces;
+using xLib.Application.User.Exceptions;
+using xLib.Infastructure.Identity.Models;
 
 public class GetUserByNameHandler : IRequestHandler<GetUserByNameQuery, UserViewModel>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public GetUserByNameHandler(IApplicationDbContext context)
+    public GetUserByNameHandler(UserManager<ApplicationUser> userManager)
     {
-        _context = context;
+        _userManager = userManager;
     }
-
 
     public async Task<UserViewModel> Handle(GetUserByNameQuery request, CancellationToken cancellationToken)
     {
-        //var user = new Appl
+        List<string> roles = new List<string>();
+        var user = await _userManager.FindByNameAsync(request.Username);
 
-        //if (user == null)
-        //{
-        //    throw new UserNotFoundException();
-        //}
+        if (user == null)
+        {
+            throw new UserNotFoundException();
+        }
 
-        //if (user.Private)
-        //{
-        //    throw new UserHavePrivateProfileException();
-        //}
+        if (user.Private)
+        {
+            throw new UserHavePrivateProfileException();
+        }
 
-        //UserViewModel result = new UserViewModel
-        //{
-        //    UserName = user.UserName,
-        //    Email = user.Email,
-        //    FirstName = user.FirstName,
-        //    LastName = user.LastName,
-        //    Avatar = user.AvatarPictureUrl,
-        //    HeaderPicture = user.HeaderPictureUrl,
-        //};
+        var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
 
-        //return result;
+        if (rolesList.Contains("Administrator"))
+        {
+            roles.Add("Admin");
+        }
+        else if (rolesList.Contains("Moderator"))
+        {
+            roles.Add("Moderator");
+        }
+        else if (rolesList.Contains("Pro"))
+        {
+            roles.Add("Pro");
+        }
 
-        return null;
+        var result = new UserViewModel
+        {
+            UserName = user.UserName,
+            Email = user.Email,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Avatar = user.AvatarPictureUrl,
+            HeaderPicture = user.HeaderPictureUrl,
+            Roles = roles,
+        };
+
+        return result;
     }
 }
