@@ -1,4 +1,4 @@
-﻿namespace xLib.Application.Identity.Exceptions;
+﻿namespace xLib.Infastructure.Identity.Exceptions;
 
 public class UserNameAlreadyTakenException : Exception
 {

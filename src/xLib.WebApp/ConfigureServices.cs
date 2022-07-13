@@ -1,12 +1,12 @@
 namespace xLib.WebApp;
 
-using Application.Identity.Interfaces;
-using Application.Identity.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Services;
 using System.Text;
+using xLib.Application.Identity.Interfaces;
+using xLib.Infastructure.Identity;
+using xLib.Infastructure.Identity.Models;
 using xLib.Infastructure.Persistence;
 
 public static class ConfigureServices

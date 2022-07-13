@@ -1,45 +1,46 @@
 ﻿namespace xLib.Application.User.Handlers;
 
-using Exceptions;
-using Identity.Models;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Queries;
 using ViewModels;
+using xLib.Application.Common.Interfaces;
 
 public class GetUserByNameHandler : IRequestHandler<GetUserByNameQuery, UserViewModel>
 {
-    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IApplicationDbContext _context;
 
-    public GetUserByNameHandler(UserManager<ApplicationUser> userManager)
+    public GetUserByNameHandler(IApplicationDbContext context)
     {
-        _userManager = userManager;
+        _context = context;
     }
+
 
     public async Task<UserViewModel> Handle(GetUserByNameQuery request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByNameAsync(request.Username);
+        //var user = new Appl
 
-        if (user == null)
-        {
-            throw new UserNotFoundException();
-        }
+        //if (user == null)
+        //{
+        //    throw new UserNotFoundException();
+        //}
 
-        if (user.Private)
-        {
-            throw new UserHavePrivateProfileException();
-        }
+        //if (user.Private)
+        //{
+        //    throw new UserHavePrivateProfileException();
+        //}
 
-        UserViewModel result = new UserViewModel
-        {
-            UserName = user.UserName,
-            Email = user.Email,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Avatar = user.AvatarPictureUrl,
-            HeaderPicture = user.HeaderPictureUrl,
-        };
+        //UserViewModel result = new UserViewModel
+        //{
+        //    UserName = user.UserName,
+        //    Email = user.Email,
+        //    FirstName = user.FirstName,
+        //    LastName = user.LastName,
+        //    Avatar = user.AvatarPictureUrl,
+        //    HeaderPicture = user.HeaderPictureUrl,
+        //};
 
-        return result;
+        //return result;
+
+        return null;
     }
 }

@@ -1,9 +1,5 @@
-﻿namespace xLib.WebApp.Services;
+﻿namespace xLib.Infastructure.Identity;
 
-using Application.Common.Models;
-using Application.Identity.Exceptions;
-using Application.Identity.Interfaces;
-using Application.Identity.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -11,7 +7,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using xLib.Application.Identity.ViewModel;
+using xLib.Application.Common.Models;
+using xLib.Application.Identity.Interfaces;
+using xLib.Infastructure.Identity.Exceptions;
+using xLib.Infastructure.Identity.Models;
 
 public class IdentityService : IIdentityService
 {
@@ -28,9 +27,9 @@ public class IdentityService : IIdentityService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public async Task<AuthenticationModel> RegisterAsync(RegisterModel model)
+    public async Task<AuthenticationViewModel> RegisterAsync(RegisterViewModel model)
     {
-        var authenticationModel = new AuthenticationModel();
+        var authenticationModel = new AuthenticationViewModel();
 
         var user = new ApplicationUser
         {
@@ -67,9 +66,9 @@ public class IdentityService : IIdentityService
 
     }
 
-    public async Task<AuthenticationModel> GetTokenAsync(LoginModel model)
+    public async Task<AuthenticationViewModel> GetTokenAsync(LoginViewModel model)
     {
-        var authenticationModel = new AuthenticationModel();
+        var authenticationModel = new AuthenticationViewModel();
         var user = await _userManager.FindByEmailAsync(model.Email);
 
         if (user == null)
@@ -88,7 +87,7 @@ public class IdentityService : IIdentityService
         throw new ForbiddenAccessException();
     }
 
-    public async Task<string> AddRoleAsync(AddRoleModel model)
+    public async Task<string> AddRoleAsync(AddRoleViewModel model)
     {
         var user = await _userManager.FindByEmailAsync(model.Email);
         if (user == null)
@@ -107,26 +106,6 @@ public class IdentityService : IIdentityService
             return $"Role {model.Role} not found.";
         }
         return $"Incorrect Credentials for user {user.Email}.";
-    }
-
-    public async Task<UserModel> GetUserDetailsAsync()
-    {
-        var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue("uid");
-
-        var user = await _userManager.FindByIdAsync(userId);
-        var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
-
-        var userVm = new UserModel
-        {
-            Email = user.Email,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Username = user.UserName,
-            Private = user.Private,
-            Roles = rolesList.ToArray()
-        };
-
-        return userVm;
     }
 
     private async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user)
@@ -155,6 +134,7 @@ public class IdentityService : IIdentityService
             claims: claims,
             expires: DateTime.UtcNow.AddMinutes(_jwt.DurationInMinutes),
             signingCredentials: signingCredentials);
+
         return jwtSecurityToken;
     }
 }
