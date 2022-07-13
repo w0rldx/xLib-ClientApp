@@ -4,14 +4,13 @@ services:
     container_name: xlib-postgress
     hostname: xlib_db
     image: postgres
-    environment:
-      - POSTGRES_PASSWORD=pa$$w0rd1234
-      - POSTGRES_USER=admin
-      - POSTGRES_DB=xlib_db
     ports:
-      - '5432:5432'
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: xlib_db
     volumes:
-      - xlib-db-data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
 volumes:
-  xlib-db-data:
+  pgdata:
     driver: local

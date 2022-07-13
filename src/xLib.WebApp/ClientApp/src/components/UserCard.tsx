@@ -7,6 +7,7 @@ interface UserCardProps {
     fistName: string;
     lastName: string;
     email: string;
+    roles: string[];
     headerPicture?: string;
 }
 
@@ -28,6 +29,19 @@ function UserCard(props: UserCardProps) {
         }
     };
 
+    const userNameWithBadge = () => {
+        if (props.roles?.length > 0) {
+            return (
+                <Group position="apart" mt="md" mb="xs">
+                    <Text weight={500}>{props.userName}</Text>
+                    <Badge color="pink" variant="light">
+                        On Sale
+                    </Badge>
+                </Group>
+            );
+        }
+    };
+
     return (
         <Card shadow="sm" p="lg" radius="md" withBorder>
             <Card.Section>
@@ -43,13 +57,7 @@ function UserCard(props: UserCardProps) {
 
             <div className={classes.container}>
                 {userAvatar()}
-                <Group position="apart" mt="md" mb="xs">
-                    <Text weight={500}>Norway Fjord Adventures</Text>
-                    <Badge color="pink" variant="light">
-                        On Sale
-                    </Badge>
-                </Group>
-
+                {userNameWithBadge()}
                 <Text size="sm" color="dimmed">
                     With Fjord Tours you can explore more of the magical fjord
                     landscapes with tours and activities on and around the
@@ -66,6 +74,7 @@ function UserCard(props: UserCardProps) {
                     Book classic tour now
                 </Button>
             </div>
+            {props.userName === '' ? 'Error No User Name' : props.userName}
         </Card>
     );
 }

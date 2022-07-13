@@ -30,6 +30,7 @@ function App() {
                             <Route path="/user" element={<User />}>
                                 <Route path=":userName" element={<User />} />
                             </Route>
+                            <Route path="/error" element={<NoPage />} />
                             <Route path="*" element={<NoPage />} />
                         </Route>
                     </Routes>
