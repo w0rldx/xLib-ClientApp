@@ -3,5 +3,7 @@
 public enum Roles
 {
     Administrator,
+    Moderator,
+    Pro,
     User
 }
