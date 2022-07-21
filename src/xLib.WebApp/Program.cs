@@ -1,4 +1,5 @@
 using xLib.Application;
+using xLib.Application.Hubs;
 using xLib.Infastructure;
 using xLib.Infastructure.Persistence;
 using xLib.WebApp;
@@ -45,5 +46,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("/hubs/chat");
 
 app.Run();
