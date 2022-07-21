@@ -7,10 +7,10 @@ import {
     NotificationsProvider,
     showNotification,
 } from '@mantine/notifications';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useEffect, useState } from 'react';
 import { BiErrorAlt } from 'react-icons/bi';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import { useNavigate } from 'react-router';
 import '../scss/Index.scss';
 import IdentityService from '../services/IdentityService';

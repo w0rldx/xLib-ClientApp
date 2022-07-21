@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router';
 import UserCard from '../components/UserCard';
 import UserService from '../services/UserService';
