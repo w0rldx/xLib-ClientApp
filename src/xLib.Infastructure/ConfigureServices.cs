@@ -1,4 +1,4 @@
-﻿namespace xLib.Infastructure;
+namespace xLib.Infastructure;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
