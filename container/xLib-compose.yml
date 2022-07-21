@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: xlib_db
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - xlib_postgres:/var/lib/postgresql/data
 volumes:
-  pgdata:
+  xlib_postgres:
     driver: local
