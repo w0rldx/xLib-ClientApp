@@ -36,6 +36,7 @@ public static class ConfigureServices
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
+                options.Password.RequiredUniqueChars = 0;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>();
 

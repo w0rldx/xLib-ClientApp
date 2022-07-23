@@ -60,8 +60,13 @@ function Register() {
         },
 
         validate: {
-            email: (value: string) =>
-                /^\S+@\S+$/.test(value) ? null : 'Invalid email',
+            email: (input: string) =>
+                /^\S+@\S+$/.test(input) ? null : 'Invalid email',
+            password: (input: string) => {
+                if (input.length < 5) {
+                    return 'Password must be at least 5 characters long';
+                }
+            },
         },
     });
 
