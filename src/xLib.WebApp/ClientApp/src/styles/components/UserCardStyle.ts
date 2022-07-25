@@ -21,6 +21,12 @@ const useStyles = createStyles((theme) => ({
     userName: {
         marginLeft: 22,
     },
+
+    postContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px',
+    },
 }));
 
 export { useStyles };

@@ -9,6 +9,5 @@ public class Post
     public Guid Id { get; set; }
     public string Message { get; set; }
     public DateTime Created { get; set; }
-    [ForeignKey("ApplicationUser")]
-    public Guid ApplicationUserId { get; set; }
+    public string CreatedByUserId { get; set; }
 }

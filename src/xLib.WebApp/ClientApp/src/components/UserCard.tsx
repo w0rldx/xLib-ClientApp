@@ -59,6 +59,10 @@ function UserCard(props: UserCardProps) {
         }
     };
 
+    const postCard = () => {
+        return <></>;
+    };
+
     return (
         <Card shadow="sm" p="lg" radius="md" withBorder>
             <Card.Section>
@@ -86,6 +90,7 @@ function UserCard(props: UserCardProps) {
                             : props.userName}
                     </Text>
                 </div>
+                <div className={classes.postContainer}>{postCard()}</div>
             </div>
         </Card>
     );

@@ -8,7 +8,6 @@ using xLib.Infastructure.Identity.Models;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
 {
-    public DbSet<Book> Books => Set<Book>();
     public DbSet<Post> Posts => Set<Post>();
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -17,12 +16,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Post>().HasKey(x => x.Id);
-
         modelBuilder.Entity<Post>()
             .HasOne(typeof(ApplicationUser))
             .WithMany()
-            .HasForeignKey("ApplicationUserId");
+            .HasForeignKey("CreatedByUserId");
 
         base.OnModelCreating(modelBuilder);
     }
