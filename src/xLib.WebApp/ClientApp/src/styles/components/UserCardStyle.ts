@@ -10,6 +10,17 @@ const useStyles = createStyles((theme) => ({
     avatar: {
         marginTop: 0,
     },
+
+    avatarContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px',
+        alignItems: 'center',
+    },
+
+    userName: {
+        marginLeft: 22,
+    },
 }));
 
 export { useStyles };

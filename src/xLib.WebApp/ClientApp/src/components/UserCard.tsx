@@ -1,4 +1,5 @@
 import { Avatar, Badge, Button, Card, Group, Image, Text } from '@mantine/core';
+import { useAuthStore } from '../stores/AuthStore';
 import { useStyles } from '../styles/components/UserCardStyle';
 
 interface UserCardProps {
@@ -13,6 +14,7 @@ interface UserCardProps {
 
 function UserCard(props: UserCardProps) {
     const { classes } = useStyles();
+    const [user] = useAuthStore((state) => [state.getUser()]);
 
     const userAvatar = () => {
         if (props.avatar === '') {
@@ -42,6 +44,21 @@ function UserCard(props: UserCardProps) {
         }
     };
 
+    const addAsFriendButton = () => {
+        if (props.userName !== user?.username) {
+            return <Button>Add as Friend</Button>;
+        } else {
+            return <></>;
+        }
+    };
+    const editProfileButton = () => {
+        if (props.userName === user?.username) {
+            return <Button>Edit Profile</Button>;
+        } else {
+            return <></>;
+        }
+    };
+
     return (
         <Card shadow="sm" p="lg" radius="md" withBorder>
             <Card.Section>
@@ -56,25 +73,20 @@ function UserCard(props: UserCardProps) {
             </Card.Section>
 
             <div className={classes.container}>
-                {userAvatar()}
+                <div className={classes.avatarContainer}>
+                    {userAvatar()}
+                    {editProfileButton()}
+                    {addAsFriendButton()}
+                </div>
                 {userNameWithBadge()}
-                <Text size="sm" color="dimmed">
-                    With Fjord Tours you can explore more of the magical fjord
-                    landscapes with tours and activities on and around the
-                    fjords of Norway
-                </Text>
-
-                <Button
-                    variant="light"
-                    color="blue"
-                    fullWidth
-                    mt="md"
-                    radius="md"
-                >
-                    Book classic tour now
-                </Button>
+                <div className={classes.userName}>
+                    <Text size={30} color="dimmed">
+                        {props.userName === ''
+                            ? 'Error No User Name'
+                            : props.userName}
+                    </Text>
+                </div>
             </div>
-            {props.userName === '' ? 'Error No User Name' : props.userName}
         </Card>
     );
 }
