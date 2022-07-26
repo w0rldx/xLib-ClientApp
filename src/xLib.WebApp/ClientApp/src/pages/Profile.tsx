@@ -16,14 +16,14 @@ function Profile() {
         ),
     );
     const profileUsername = profile.data?.userName;
-    const posts = useQuery(
+    const { data, refetch } = useQuery(
         ['posts'],
         () =>
             PostService.getAllPostFromUser(
                 token ? token : '',
                 profileUsername ? profileUsername : '',
             ),
-        { enabled: !!profileUsername },
+        { enabled: !!profileUsername || false },
     );
 
     const userCard = () => {
@@ -49,7 +49,8 @@ function Profile() {
                             ? profile.data.headerPicture
                             : ''
                     }
-                    posts={posts.data ? posts.data : []}
+                    posts={data ? data : []}
+                    refetch={refetch}
                 ></UserCard>
             );
         } else {

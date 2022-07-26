@@ -1,18 +1,12 @@
-import {
-    Avatar,
-    Badge,
-    Button,
-    Card,
-    Group,
-    Image,
-    Text,
-    TypographyStylesProvider,
-} from '@mantine/core';
+import { Avatar, Badge, Button, Card, Group, Image, Text } from '@mantine/core';
 import { RichTextEditor } from '@mantine/rte';
-import { IPost } from 'interfaces/Post';
+import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
+import { IPost } from '../interfaces/Post';
+import PostService from '../services/PostService';
 import { useAuthStore } from '../stores/AuthStore';
 import { useStyles } from '../styles/components/UserCardStyle';
+import PostCard from './PostCard';
 
 interface UserCardProps {
     userName: string;
@@ -23,12 +17,19 @@ interface UserCardProps {
     roles: string[];
     headerPicture?: string;
     posts: IPost[];
+    refetch: () => void;
 }
 
 function UserCard(props: UserCardProps) {
     const { classes } = useStyles();
-    const [value, onChange] = useState('Was gibt`s Neues?');
+    const [value, onChange] = useState('');
     const [user] = useAuthStore((state) => [state.getUser()]);
+    const [token] = useAuthStore((s) => [s.getToken()]);
+    const mutation = useMutation(() => {
+        return PostService.createPost(token ? token : '', value);
+    });
+
+    console.log(props.posts);
 
     const userAvatar = () => {
         if (props.avatar === '') {
@@ -65,6 +66,7 @@ function UserCard(props: UserCardProps) {
             return <></>;
         }
     };
+
     const editProfileButton = () => {
         if (props.userName === user?.username) {
             return <Button>Edit Profile</Button>;
@@ -73,39 +75,71 @@ function UserCard(props: UserCardProps) {
         }
     };
 
-    const postCard = () => {
-        console.log(props.posts);
-
-        if (props.posts.length > 0) {
+    const newPostEditor = () => {
+        if (props.userName === user?.username) {
             return (
-                <div className={classes.postContainer}>
-                    <Group spacing="lg">
-                        <RichTextEditor
-                            className={classes.editor}
-                            value={value}
-                            onChange={onChange}
-                        />
-                        {props.posts.map((post) => {
-                            return (
-                                <Card
-                                    key={post.id}
-                                    className={classes.postCard}
-                                    p={0}
-                                    mb={2}
-                                    withBorder
-                                >
-                                    <TypographyStylesProvider>
-                                        {post.message}
-                                    </TypographyStylesProvider>
-                                </Card>
-                            );
-                        })}
-                    </Group>
+                <div className={classes.editorContainer}>
+                    <RichTextEditor
+                        className={classes.editor}
+                        value={value}
+                        onChange={onChange}
+                        placeholder="Was gibt`s Neues?"
+                    />
+                    <div className={classes.postButtonContainer}>
+                        <Button
+                            className={classes.postButton}
+                            onClick={() => makeNewPost()}
+                        >
+                            Post
+                        </Button>
+                    </div>
                 </div>
             );
-        } else {
-            return <></>;
         }
+    };
+
+    async function makeNewPost() {
+        const result = await mutation.mutateAsync();
+
+        if (result) {
+            props.refetch();
+            onChange('');
+        }
+    }
+
+    const postsElements = () => {
+        if (props.posts?.length > 0) {
+            return props.posts.map((post) => {
+                return (
+                    <PostCard
+                        key={post.id}
+                        id={post.id}
+                        date={post.createdDate}
+                        message={post.message}
+                    />
+                );
+            });
+        } else {
+            return (
+                <div className={classes.lastActivity}>
+                    <Text size="xl">Keine Aktivitäten</Text>
+                </div>
+            );
+        }
+    };
+
+    const postCard = () => {
+        return (
+            <div className={classes.postContainer}>
+                {newPostEditor()}
+                <div className={classes.lastActivity}>
+                    <Text weight={700} size="xl">
+                        Letzte Post:
+                    </Text>
+                </div>
+                {postsElements()}
+            </div>
+        );
     };
 
     return (

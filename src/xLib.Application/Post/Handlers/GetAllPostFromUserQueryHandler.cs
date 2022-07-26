@@ -47,7 +47,7 @@ public class GetAllPostFromUserQueryHandler : IRequestHandler<GetAllPostFromUser
             });
         }
 
-        postVMList.Sort((x, y) => DateTime.Compare(x.CreatedDate, y.CreatedDate));
+        postVMList.Sort((x, y) => DateTime.Compare(y.CreatedDate, x.CreatedDate));
 
         return postVMList;
     }

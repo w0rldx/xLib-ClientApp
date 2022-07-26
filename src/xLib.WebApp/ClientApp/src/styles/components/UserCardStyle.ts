@@ -28,22 +28,46 @@ const useStyles = createStyles((theme) => ({
     },
 
     postContainer: {
+        marginTop: '0px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '12px',
+        gap: '20px',
+        width: '100%',
+        marginRight: '50px',
     },
 
     postCard: {
         padding: '12px',
         width: '100%',
-        marginLeft: '20px',
+        marginLeft: '50px',
         minHeight: '50px',
         borderRadius: '5px',
     },
 
     editor: {
-        marginLeft: '20px',
+        marginRight: '20px',
         width: '100%',
+    },
+
+    editorContainer: {
+        marginLeft: '50px',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+    },
+
+    postButtonContainer: {
+        marginTop: '8px',
+        width: '100%',
+        textAlign: 'right',
+    },
+
+    postButton: {
+        width: '150px',
+    },
+
+    lastActivity: {
+        marginLeft: '50px',
     },
 }));
 export { useStyles };
