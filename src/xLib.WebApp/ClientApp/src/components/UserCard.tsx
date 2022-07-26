@@ -1,4 +1,16 @@
-import { Avatar, Badge, Button, Card, Group, Image, Text } from '@mantine/core';
+import {
+    Avatar,
+    Badge,
+    Button,
+    Card,
+    Group,
+    Image,
+    Text,
+    TypographyStylesProvider,
+} from '@mantine/core';
+import { RichTextEditor } from '@mantine/rte';
+import { IPost } from 'interfaces/Post';
+import { useState } from 'react';
 import { useAuthStore } from '../stores/AuthStore';
 import { useStyles } from '../styles/components/UserCardStyle';
 
@@ -10,10 +22,12 @@ interface UserCardProps {
     email: string;
     roles: string[];
     headerPicture?: string;
+    posts: IPost[];
 }
 
 function UserCard(props: UserCardProps) {
     const { classes } = useStyles();
+    const [value, onChange] = useState('Was gibt`s Neues?');
     const [user] = useAuthStore((state) => [state.getUser()]);
 
     const userAvatar = () => {
@@ -60,11 +74,48 @@ function UserCard(props: UserCardProps) {
     };
 
     const postCard = () => {
-        return <></>;
+        console.log(props.posts);
+
+        if (props.posts.length > 0) {
+            return (
+                <div className={classes.postContainer}>
+                    <Group spacing="lg">
+                        <RichTextEditor
+                            className={classes.editor}
+                            value={value}
+                            onChange={onChange}
+                        />
+                        {props.posts.map((post) => {
+                            return (
+                                <Card
+                                    key={post.id}
+                                    className={classes.postCard}
+                                    p={0}
+                                    mb={2}
+                                    withBorder
+                                >
+                                    <TypographyStylesProvider>
+                                        {post.message}
+                                    </TypographyStylesProvider>
+                                </Card>
+                            );
+                        })}
+                    </Group>
+                </div>
+            );
+        } else {
+            return <></>;
+        }
     };
 
     return (
-        <Card shadow="sm" p="lg" radius="md" withBorder>
+        <Card
+            shadow="sm"
+            p="lg"
+            radius="md"
+            withBorder
+            className={classes.cardContainer}
+        >
             <Card.Section>
                 <Image
                     src={
@@ -90,7 +141,7 @@ function UserCard(props: UserCardProps) {
                             : props.userName}
                     </Text>
                 </div>
-                <div className={classes.postContainer}>{postCard()}</div>
+                {postCard()}
             </div>
         </Card>
     );

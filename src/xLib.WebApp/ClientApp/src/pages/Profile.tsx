@@ -1,34 +1,55 @@
 import { useQuery } from '@tanstack/react-query';
 import { Navigate, useParams } from 'react-router';
 import UserCard from '../components/UserCard';
+import { IUser } from '../interfaces/User';
+import PostService from '../services/PostService';
 import UserService from '../services/UserService';
 import { useAuthStore } from '../stores/AuthStore';
 
 function Profile() {
     const { userName } = useParams();
     const [token] = useAuthStore((state) => [state.getToken()]);
-    const { data, error } = useQuery(['profile'], () =>
+    const profile = useQuery<IUser, Error>(['profile'], () =>
         UserService.getSpecificUserData(
             token ? token : '',
             userName ? userName : '',
         ),
     );
+    const profileUsername = profile.data?.userName;
+    const posts = useQuery(
+        ['posts'],
+        () =>
+            PostService.getAllPostFromUser(
+                token ? token : '',
+                profileUsername ? profileUsername : '',
+            ),
+        { enabled: !!profileUsername },
+    );
 
     const userCard = () => {
-        if (data === undefined || error !== null) {
+        if (profile.data === undefined || profile.error !== null) {
             <Navigate replace to="/error" />;
-        } else if (data !== undefined || error === null) {
+        } else if (profile.data !== undefined) {
             return (
                 <UserCard
-                    email={data?.email ? data.email : ''}
-                    fistName={data?.firstName ? data.firstName : ''}
-                    lastName={data?.lastName ? data.lastName : ''}
-                    userName={data?.userName ? data.userName : ''}
-                    avatar={data?.avatar ? data.avatar : ''}
-                    roles={data?.roles ? data.roles : []}
-                    headerPicture={
-                        data?.headerPicture ? data.headerPicture : ''
+                    email={profile.data?.email ? profile.data.email : ''}
+                    fistName={
+                        profile.data?.firstName ? profile.data.firstName : ''
                     }
+                    lastName={
+                        profile.data?.lastName ? profile.data.lastName : ''
+                    }
+                    userName={
+                        profile.data?.userName ? profile.data.userName : ''
+                    }
+                    avatar={profile.data?.avatar ? profile.data.avatar : ''}
+                    roles={profile.data?.roles ? profile.data.roles : []}
+                    headerPicture={
+                        profile.data?.headerPicture
+                            ? profile.data.headerPicture
+                            : ''
+                    }
+                    posts={posts.data ? posts.data : []}
                 ></UserCard>
             );
         } else {

@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { IUser } from '../interfaces/User';
+import { IPost } from '../interfaces/Post';
 
 const apiClient = axios.create({
     baseURL: process.env.WEB_API_URL,
@@ -8,9 +8,9 @@ const apiClient = axios.create({
     },
 });
 
-const getSpecificUserData = async (token: string, userName: string) => {
-    const response: AxiosResponse<IUser> = await apiClient.get(
-        `/user/getuser/${userName}`,
+const getAllPostFromUser = async (token: string, userName: string) => {
+    const response: AxiosResponse<IPost[]> = await apiClient.get(
+        `/post/getallpostfromuser/${userName}`,
         {
             headers: {
                 'Content-type': 'application/json',
@@ -23,11 +23,72 @@ const getSpecificUserData = async (token: string, userName: string) => {
     return response.data;
 };
 
-const getAllPostFromUser = async (token: string, userName: string) => {};
-const getPostById = async (token: string, userName: string) => {};
-const deletePostById = async (token: string, userName: string) => {};
-const createPost = async (token: string, userName: string) => {};
-const updatePost = async (token: string, userName: string) => {};
+const getPostById = async (token: string, id: string) => {
+    const response: AxiosResponse<IPost> = await apiClient.get(
+        `/post/getpostbyid/${id}`,
+        {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+        },
+    );
+
+    return response.data;
+};
+
+const deletePostById = async (token: string, id: string) => {
+    const response: AxiosResponse = await apiClient.delete(
+        `/post/deletepost/${id}`,
+        {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+        },
+    );
+
+    return response.data;
+};
+
+const createPost = async (token: string, message: string) => {
+    const response: AxiosResponse<IPost> = await apiClient.post(
+        `/post/addnewpost`,
+        {
+            message: `${message}`,
+        },
+        {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+        },
+    );
+
+    return response.data;
+};
+
+const updatePost = async (token: string, id: string, message: string) => {
+    const response: AxiosResponse<IPost> = await apiClient.put(
+        `/post/updatepost`,
+        {
+            id: `${id}`,
+            message: `${message}`,
+        },
+        {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+        },
+    );
+
+    return response.data;
+};
 
 const PostService = {
     getAllPostFromUser,

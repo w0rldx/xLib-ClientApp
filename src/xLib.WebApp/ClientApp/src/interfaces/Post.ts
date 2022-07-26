@@ -3,3 +3,12 @@ export interface IPost {
     message: string;
     createdDate: string;
 }
+
+export interface ICreateNewPost {
+    message: string;
+}
+
+export interface UpdatePost {
+    id: string;
+    message: string;
+}

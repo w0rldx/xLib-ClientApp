@@ -71,6 +71,7 @@
         "@mantine/hooks": "^v5.0.0",
         "@mantine/modals": "^v5.0.0",
         "@mantine/notifications": "^v5.0.0",
+        "@mantine/rte": "^5.0.0",
         "@mantine/spotlight": "^v5.0.0",
         "@microsoft/signalr": "^6.0.7",
         "@tanstack/react-query": "^4.0.10",
