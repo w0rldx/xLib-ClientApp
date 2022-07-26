@@ -10,15 +10,17 @@ const useStyles = createStyles((theme) => ({
     postCard: {
         padding: '12px',
         width: '100%',
-        marginLeft: '50px',
-        minHeight: '50px',
+        minHeight: '60px',
         borderRadius: '5px',
+        backgroundColor:
+            theme.colorScheme === 'dark'
+                ? theme.colors.dark[5]
+                : theme.colors.gray[0],
     },
 
     dateContainer: {
         width: '100%',
         textAlign: 'right',
-        marginLeft: '50px',
     },
 
     editContainer: {

@@ -1,5 +1,5 @@
 import {
-    Card,
+    Box,
     Text,
     TypographyStylesProvider,
     UnstyledButton,
@@ -22,7 +22,7 @@ function PostCard(props: PostCardProps) {
 
     return (
         <div className={classes.postContainer}>
-            <Card className={classes.postCard} p={0} mb={2} withBorder>
+            <Box className={classes.postCard} p={0} mb={2}>
                 <div className={classes.editContainer}>
                     <div className={classes.textContainer}>
                         <TypographyStylesProvider>
@@ -39,7 +39,7 @@ function PostCard(props: PostCardProps) {
                         </UnstyledButton>
                     </div>
                 </div>
-            </Card>
+            </Box>
             <div className={classes.dateContainer}>
                 <Text size="xs">
                     {date.getDay()}.{date.getMonth()}.{date.getFullYear()}{' '}

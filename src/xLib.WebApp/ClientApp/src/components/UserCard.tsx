@@ -1,7 +1,9 @@
-import { Avatar, Badge, Button, Card, Group, Image, Text } from '@mantine/core';
+import { Avatar, Button, Divider, Image, Text } from '@mantine/core';
 import { RichTextEditor } from '@mantine/rte';
 import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
+import { createRef, useState } from 'react';
+import ReactQuill from 'react-quill';
+import { useNavigate } from 'react-router';
 import { IPost } from '../interfaces/Post';
 import PostService from '../services/PostService';
 import { useAuthStore } from '../stores/AuthStore';
@@ -23,8 +25,10 @@ interface UserCardProps {
 function UserCard(props: UserCardProps) {
     const { classes } = useStyles();
     const [value, onChange] = useState('');
+    const rteRef = createRef<ReactQuill>();
     const [user] = useAuthStore((state) => [state.getUser()]);
     const [token] = useAuthStore((s) => [s.getToken()]);
+    const navigate = useNavigate();
     const mutation = useMutation(() => {
         return PostService.createPost(token ? token : '', value);
     });
@@ -46,21 +50,8 @@ function UserCard(props: UserCardProps) {
         }
     };
 
-    const userNameWithBadge = () => {
-        if (props.roles?.length > 0) {
-            return (
-                <Group position="apart" mt="md" mb="xs">
-                    <Text weight={500}>{props.userName}</Text>
-                    <Badge color="pink" variant="light">
-                        On Sale
-                    </Badge>
-                </Group>
-            );
-        }
-    };
-
     const addAsFriendButton = () => {
-        if (props.userName !== user?.username) {
+        if (props.userName !== user?.userName) {
             return <Button>Add as Friend</Button>;
         } else {
             return <></>;
@@ -68,18 +59,29 @@ function UserCard(props: UserCardProps) {
     };
 
     const editProfileButton = () => {
-        if (props.userName === user?.username) {
-            return <Button>Edit Profile</Button>;
+        if (props.userName === user?.userName) {
+            return (
+                <Button onClick={() => navigate('/edit')}>Edit Profile</Button>
+            );
+        } else {
+            return <></>;
+        }
+    };
+
+    const messageButton = () => {
+        if (props.userName !== user?.userName) {
+            return <Button>Message</Button>;
         } else {
             return <></>;
         }
     };
 
     const newPostEditor = () => {
-        if (props.userName === user?.username) {
+        if (props.userName === user?.userName) {
             return (
                 <div className={classes.editorContainer}>
                     <RichTextEditor
+                        ref={rteRef}
                         className={classes.editor}
                         value={value}
                         onChange={onChange}
@@ -88,7 +90,11 @@ function UserCard(props: UserCardProps) {
                     <div className={classes.postButtonContainer}>
                         <Button
                             className={classes.postButton}
-                            onClick={() => makeNewPost()}
+                            onClick={() => {
+                                makeNewPost();
+                                onChange('');
+                                rteRef.current?.editor?.setText('');
+                            }}
                         >
                             Post
                         </Button>
@@ -103,7 +109,6 @@ function UserCard(props: UserCardProps) {
 
         if (result) {
             props.refetch();
-            onChange('');
         }
     }
 
@@ -111,12 +116,20 @@ function UserCard(props: UserCardProps) {
         if (props.posts?.length > 0) {
             return props.posts.map((post) => {
                 return (
-                    <PostCard
-                        key={post.id}
-                        id={post.id}
-                        date={post.createdDate}
-                        message={post.message}
-                    />
+                    <>
+                        <div className={classes.postCard} key={post.id}>
+                            <PostCard
+                                id={post.id}
+                                date={post.createdDate}
+                                message={post.message}
+                            />
+                        </div>
+                        <Divider
+                            my="sm"
+                            variant="dashed"
+                            className={classes.divider}
+                        />
+                    </>
                 );
             });
         } else {
@@ -134,7 +147,7 @@ function UserCard(props: UserCardProps) {
                 {newPostEditor()}
                 <div className={classes.lastActivity}>
                     <Text weight={700} size="xl">
-                        Letzte Post:
+                        Letzte Aktivitäten:
                     </Text>
                 </div>
                 {postsElements()}
@@ -143,14 +156,8 @@ function UserCard(props: UserCardProps) {
     };
 
     return (
-        <Card
-            shadow="sm"
-            p="lg"
-            radius="md"
-            withBorder
-            className={classes.cardContainer}
-        >
-            <Card.Section>
+        <>
+            <div className={classes.cardContainer}>
                 <Image
                     src={
                         props.headerPicture === ''
@@ -159,25 +166,22 @@ function UserCard(props: UserCardProps) {
                     }
                     height={300}
                 />
-            </Card.Section>
-
-            <div className={classes.container}>
-                <div className={classes.avatarContainer}>
-                    {userAvatar()}
-                    {editProfileButton()}
-                    {addAsFriendButton()}
+                <div className={classes.container}>
+                    <div className={classes.avatarContainer}>
+                        {userAvatar()}
+                        <Text size={30} color="dimmed">
+                            {props.userName === ''
+                                ? 'Error No User Name'
+                                : props.userName}
+                        </Text>
+                        {editProfileButton()}
+                        {addAsFriendButton()}
+                        {messageButton()}
+                    </div>
+                    {postCard()}
                 </div>
-                {userNameWithBadge()}
-                <div className={classes.userName}>
-                    <Text size={30} color="dimmed">
-                        {props.userName === ''
-                            ? 'Error No User Name'
-                            : props.userName}
-                    </Text>
-                </div>
-                {postCard()}
             </div>
-        </Card>
+        </>
     );
 }
 

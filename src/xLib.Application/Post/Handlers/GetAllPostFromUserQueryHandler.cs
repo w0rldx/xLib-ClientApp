@@ -13,15 +13,20 @@ public class GetAllPostFromUserQueryHandler : IRequestHandler<GetAllPostFromUser
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IApplicationDbContext _context;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public GetAllPostFromUserQueryHandler(UserManager<ApplicationUser> userManager, IApplicationDbContext context)
+    public GetAllPostFromUserQueryHandler(UserManager<ApplicationUser> userManager, IApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
     {
         _userManager = userManager;
         _context = context;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<List<PostViewModel>> Handle(GetAllPostFromUserQuery request, CancellationToken cancellationToken)
     {
+        var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue("uid");
+        var searchUser = await _userManager.FindByIdAsync(userId);
+
         var user = await _userManager.FindByNameAsync(request.UserName);
         var postVMList = new List<PostViewModel>();
 
@@ -30,7 +35,7 @@ public class GetAllPostFromUserQueryHandler : IRequestHandler<GetAllPostFromUser
             return postVMList;
         }
 
-        if (user.Private == true)
+        if (user.Private == true && searchUser.Id != user.Id)
         {
             return postVMList;
         }

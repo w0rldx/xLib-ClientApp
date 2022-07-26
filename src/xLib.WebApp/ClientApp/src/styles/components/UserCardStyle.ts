@@ -4,27 +4,26 @@ const useStyles = createStyles((theme) => ({
     cardContainer: {
         minHeight: '100%',
         minWidth: '100%',
+        backgroundColor:
+            theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
     },
 
     container: {
         display: 'flex',
         flexDirection: 'row',
-        paddingTop: 30,
+        paddingTop: '30px',
     },
 
     avatar: {
-        marginTop: 0,
+        marginTop: '0px',
     },
 
     avatarContainer: {
+        marginLeft: '30px',
         display: 'flex',
         flexDirection: 'column',
         gap: '12px',
         alignItems: 'center',
-    },
-
-    userName: {
-        marginLeft: 22,
     },
 
     postContainer: {
@@ -33,27 +32,43 @@ const useStyles = createStyles((theme) => ({
         flexDirection: 'column',
         gap: '20px',
         width: '100%',
-        marginRight: '50px',
+        marginLeft: '50px',
     },
 
     postCard: {
         padding: '12px',
-        width: '100%',
-        marginLeft: '50px',
+        marginRight: '20px',
         minHeight: '50px',
         borderRadius: '5px',
+        backgroundColor:
+            theme.colorScheme === 'dark'
+                ? theme.colors.dark[5]
+                : theme.colors.gray[0],
     },
 
     editor: {
         marginRight: '20px',
         width: '100%',
+        border: '0.5px solid',
+        borderColor:
+            theme.colorScheme === 'dark'
+                ? theme.colors.dark[6]
+                : theme.colors.gray[2],
+        backgroundColor:
+            theme.colorScheme === 'dark'
+                ? theme.colors.dark[5]
+                : theme.colors.gray[0],
     },
 
     editorContainer: {
-        marginLeft: '50px',
-        width: '100%',
         display: 'flex',
         flexDirection: 'column',
+        marginRight: '20px',
+        padding: '10px',
+        backgroundColor:
+            theme.colorScheme === 'dark'
+                ? theme.colors.dark[5]
+                : theme.colors.gray[0],
     },
 
     postButtonContainer: {
@@ -66,8 +81,10 @@ const useStyles = createStyles((theme) => ({
         width: '150px',
     },
 
-    lastActivity: {
-        marginLeft: '50px',
+    lastActivity: {},
+
+    divider: {
+        width: '100%',
     },
 }));
 export { useStyles };

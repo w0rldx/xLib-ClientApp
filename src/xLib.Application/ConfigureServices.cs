@@ -1,4 +1,6 @@
-﻿namespace xLib.Application;
+﻿using xLib.Application.Common.FileUpload;
+
+namespace xLib.Application;
 
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +13,8 @@ public static class ConfigureServices
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddSignalR();
+
+        services.AddTransient<IAzureStorage, AzureStorage>();
 
         return services;
     }
