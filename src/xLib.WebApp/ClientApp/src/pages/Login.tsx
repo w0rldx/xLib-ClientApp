@@ -9,6 +9,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
+import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { AiFillUnlock } from 'react-icons/ai';
@@ -17,7 +18,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import shallow from 'zustand/shallow';
 import DarkModeToggle from '../components/DarkModeToggle';
 import AuthenticatedError from '../exceptions/AuthenticatedError';
-import { IIdentity, ITokenResponse } from '../interfaces/Identity';
+import { IIdentity, IIdentityLoginForm } from '../interfaces/Identity';
 import IdentityService from '../services/IdentityService';
 import { useAuthStore } from '../stores/AuthStore';
 import { useStyles } from '../styles/pages/LoginPage';
@@ -27,9 +28,15 @@ import SessionStorageHelper from '../utils/SessionStorageHelper';
 function Login() {
     const { classes } = useStyles();
     const { setToken, setUser } = useAuthStore(
-        (s) => ({ setToken: s.setToken, setUser: s.setUser }),
+        (s) => ({
+            setToken: s.setToken,
+            setUser: s.setUser,
+        }),
         shallow,
     );
+    const mutation = useMutation((model: IIdentityLoginForm) => {
+        return IdentityService.loginUser(model);
+    });
     const navigate = useNavigate();
     const [loginButton, setLoginButton] = useState<JSX.Element>(
         loginButtonElement(false),
@@ -83,7 +90,8 @@ function Login() {
     async function onSubmit(values: typeof form.values) {
         try {
             setLoginButton(loginButtonElement(true));
-            const tokenModel: ITokenResponse = await IdentityService.loginUser({
+
+            const tokenModel = await mutation.mutateAsync({
                 email: values.email,
                 password: values.password,
             });

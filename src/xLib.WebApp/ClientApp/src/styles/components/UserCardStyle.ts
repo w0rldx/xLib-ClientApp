@@ -4,10 +4,11 @@ const useStyles = createStyles((theme) => ({
     container: {
         display: 'flex',
         flexDirection: 'row',
+        paddingTop: 30,
     },
 
     avatar: {
-        marginTop: 30,
+        marginTop: 0,
     },
 }));
 

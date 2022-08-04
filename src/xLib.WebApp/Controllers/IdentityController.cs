@@ -1,9 +1,10 @@
 ﻿namespace xLib.WebApp.Controllers;
 
-using Application.Common.Models;
-using Application.Identity.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using xLib.Application.Common.Models;
+using xLib.Application.Identity.Interfaces;
+using xLib.Application.User.Queries;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -16,7 +17,7 @@ public class IdentityController : ApiControllerBase
     }
 
     [HttpPost("registerUser")]
-    public async Task<ActionResult> RegisterAsync(RegisterModel model)
+    public async Task<ActionResult> RegisterAsync(RegisterViewModel model)
     {
         var result = await _userService.RegisterAsync(model);
 
@@ -24,7 +25,7 @@ public class IdentityController : ApiControllerBase
     }
 
     [HttpPost("loginUser")]
-    public async Task<IActionResult> GetTokenAsync(LoginModel model)
+    public async Task<IActionResult> GetTokenAsync(LoginViewModel model)
     {
         var result = await _userService.GetTokenAsync(model);
 
@@ -33,16 +34,14 @@ public class IdentityController : ApiControllerBase
 
     [Authorize]
     [HttpGet("getUser")]
-    public async Task<IActionResult> GetUser()
+    public async Task<ActionResult<ApplicationUserViewModel>> GetUser()
     {
-        var result = await _userService.GetUserDetailsAsync();
-
-        return Ok(result);
+        return await Mediator.Send(new GetUserDetailsQuery());
     }
 
     [Authorize]
     [HttpPost("addRole")]
-    public async Task<IActionResult> AddRoleAsync(AddRoleModel model)
+    public async Task<IActionResult> AddRoleAsync(AddRoleViewModel model)
     {
         var result = await _userService.AddRoleAsync(model);
 

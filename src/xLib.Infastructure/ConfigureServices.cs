@@ -1,12 +1,12 @@
-﻿namespace xLib.Infastructure;
+namespace xLib.Infastructure;
 
-using Application.Common.Interfaces;
-using Application.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Persistence;
+using xLib.Application.Common.Interfaces;
+using xLib.Infastructure.Identity.Models;
+using xLib.Infastructure.Persistence;
 
 public static class ConfigureServices
 {
@@ -27,7 +27,7 @@ public static class ConfigureServices
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
-        services.AddScoped<ApplicationDbContextInitialiser>();
+        services.AddScoped<ApplicationDbContextInitializer>();
 
         services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {

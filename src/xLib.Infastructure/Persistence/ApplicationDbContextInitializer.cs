@@ -1,20 +1,20 @@
 ﻿namespace xLib.Infastructure.Persistence;
 
-using Application.Identity.Models;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using xLib.Infastructure.Identity.Models;
 
-public class ApplicationDbContextInitialiser
+public class ApplicationDbContextInitializer
 {
 
-    private readonly ILogger<ApplicationDbContextInitialiser> _logger;
+    private readonly ILogger<ApplicationDbContextInitializer> _logger;
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public ApplicationDbContextInitialiser(ILogger<ApplicationDbContextInitialiser> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+    public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _logger = logger;
         _context = context;
@@ -61,10 +61,25 @@ public class ApplicationDbContextInitialiser
     private async Task SeedUserAsync()
     {
         //Seed Roles
-        await _roleManager.CreateAsync(new IdentityRole(Roles.Administrator.ToString()));
-        await _roleManager.CreateAsync(new IdentityRole(Roles.User.ToString()));
+        if (!_roleManager.Roles.Any())
+        {
+            await _roleManager.CreateAsync(new IdentityRole(Roles.Administrator.ToString()));
+            await _roleManager.CreateAsync(new IdentityRole(Roles.Moderator.ToString()));
+            await _roleManager.CreateAsync(new IdentityRole(Roles.Pro.ToString()));
+            await _roleManager.CreateAsync(new IdentityRole(Roles.User.ToString()));
+        }
+
         //Seed Default User
-        var defaultUser = new ApplicationUser { UserName = DefaultUser.default_username, Email = DefaultUser.default_email, EmailConfirmed = true, PhoneNumberConfirmed = true, FirstName = "Default FirstName", LastName = "Default LastName" };
+        var defaultUser = new ApplicationUser
+        {
+            UserName = DefaultUser.default_username,
+            Email = DefaultUser.default_email,
+            EmailConfirmed = true,
+            PhoneNumberConfirmed = true,
+            FirstName = DefaultUser.default_firstname,
+            LastName = DefaultUser.default_lastname
+        };
+
         if (_userManager.Users.All(u => u.Id != defaultUser.Id))
         {
             await _userManager.CreateAsync(defaultUser, DefaultUser.default_password);
