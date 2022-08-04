@@ -36,18 +36,18 @@ function SingedInUser() {
     }
 
     function userProfile() {
-        navigate(`/user/${getUser?.username}`);
+        navigate(`/user/${getUser?.userName}`);
     }
 
     const userAvatar = () => {
-        if (getUser?.profilePicture !== '') {
+        if (getUser?.avatarPicture !== null || getUser?.avatarPicture !== '') {
             return <Avatar className={classes.avatar} radius="xl" />;
         } else {
             return (
                 <Avatar
                     className={classes.avatar}
                     radius="xl"
-                    src={getUser?.profilePicture}
+                    src={getUser?.avatarPicture}
                 />
             );
         }

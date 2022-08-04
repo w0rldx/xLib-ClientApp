@@ -7,3 +7,10 @@ export interface IUser {
     headerPicture: string;
     roles: string[];
 }
+
+export interface IUpdateUser {
+    firstName: string;
+    lastName: string;
+    userName: string;
+    private: boolean;
+}

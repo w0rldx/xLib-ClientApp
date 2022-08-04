@@ -17,7 +17,7 @@ export function LogoContainer(props: LogoContainerProps) {
                 style={{ fontSize: props.fontsize + 'px' }}
                 className={classes.logo}
             >
-                {process.env.APP_NAME}
+                {import.meta.env.VITE_APP_NAME}
             </Text>
         </div>
     );

@@ -2,6 +2,7 @@ import { Group, Navbar, ScrollArea } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 
 import NavigationService from '../services/NavigationService';
+import { useAuthStore } from '../stores/AuthStore';
 import { useStyles } from '../styles/components/NavBarPanelStyle';
 import { LogoContainer } from './LogoContainer';
 import { LinksGroup } from './NavbarLinksGroup';
@@ -27,6 +28,7 @@ interface NavBarLinkItem {
 }
 
 export function NavBarPanel(props: NavBarPanelProps) {
+    const [user] = useAuthStore((state) => [state.getUser()]);
     const { data } = useQuery<NavigationItem[]>(
         ['navbarItems'],
         NavigationService.getNavigation,
@@ -38,6 +40,19 @@ export function NavBarPanel(props: NavBarPanelProps) {
     });
 
     const links = data?.map((item) => {
+        const userName = user?.userName ? user.userName : '';
+        if (item.link.includes('@user')) {
+            const url = item.link.replace('@user', userName);
+            return (
+                <LinksGroup
+                    key={item.label}
+                    icon={item.icon}
+                    label={item.label}
+                    link={url}
+                    links={!item.links.length ? undefined : item.links}
+                />
+            );
+        }
         return (
             <LinksGroup
                 key={item.label}

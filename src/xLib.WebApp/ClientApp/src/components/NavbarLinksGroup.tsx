@@ -46,6 +46,8 @@ export function LinksGroup({
         if (Icon !== undefined) {
             return (
                 <ThemeIcon variant="light" size={30}>
+                    {/* This is comment out because vite build currently cant
+                    dynamicly import icons */}
                     {/* <DynamicIcon icon={Icon} size="18" color="black" /> */}
                 </ThemeIcon>
             );

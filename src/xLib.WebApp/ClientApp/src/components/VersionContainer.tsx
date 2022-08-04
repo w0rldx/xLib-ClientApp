@@ -9,12 +9,16 @@ export function VersionContainer() {
                         DEV
                     </Text>{' '}
                     <Text inherit component="span">
-                        {process.env.VERSION}
+                        {import.meta.env.VITE_VERSION}
                     </Text>
                 </Code>
             );
         } else {
-            return <Code sx={{ fontWeight: 700 }}>{process.env.VERSION}</Code>;
+            return (
+                <Code sx={{ fontWeight: 700 }}>
+                    {import.meta.env.VITE_VERSION}
+                </Code>
+            );
         }
     };
 
