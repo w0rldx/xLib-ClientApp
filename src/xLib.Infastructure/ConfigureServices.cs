@@ -10,13 +10,13 @@ using xLib.Infastructure.Persistence;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
+        IConfiguration configuration)
     {
         if (configuration.GetValue<bool>("UseInMemoryDatabase"))
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.
-                    UseInMemoryDatabase("xLibDb"));
+                options.UseInMemoryDatabase("xLibDb"));
         }
         else
         {
@@ -36,6 +36,7 @@ public static class ConfigureServices
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
+                options.Password.RequiredUniqueChars = 0;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>();
 

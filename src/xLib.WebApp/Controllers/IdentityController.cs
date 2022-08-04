@@ -11,6 +11,7 @@ using xLib.Application.User.Queries;
 public class IdentityController : ApiControllerBase
 {
     private readonly IIdentityService _userService;
+
     public IdentityController(IIdentityService userService)
     {
         _userService = userService;

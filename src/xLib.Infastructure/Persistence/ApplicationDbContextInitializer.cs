@@ -1,5 +1,6 @@
 ﻿namespace xLib.Infastructure.Persistence;
 
+using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -7,13 +8,13 @@ using xLib.Infastructure.Identity.Models;
 
 public class ApplicationDbContextInitializer
 {
-
     private readonly ILogger<ApplicationDbContextInitializer> _logger;
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+    public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger,
+        ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _logger = logger;
         _context = context;
@@ -52,11 +53,11 @@ public class ApplicationDbContextInitializer
 
     public async Task SeedDataAsync()
     {
-        await SeedIdentityAsync();
+        await SeedUserAsync();
     }
 
 
-    private async Task SeedIdentityAsync()
+    private async Task SeedUserAsync()
     {
         //Seed Roles
         if (!_roleManager.Roles.Any())

@@ -1,4 +1,6 @@
-﻿namespace xLib.Infastructure.Identity.Models;
+﻿using xLib.Domain.Entities;
+
+namespace xLib.Infastructure.Identity.Models;
 
 using Microsoft.AspNetCore.Identity;
 

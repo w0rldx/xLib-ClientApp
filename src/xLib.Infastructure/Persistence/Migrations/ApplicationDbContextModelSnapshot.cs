@@ -154,76 +154,28 @@ namespace xLib.Infastructure.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("xLib.Domain.Entities.Book", b =>
+            modelBuilder.Entity("xLib.Domain.Entities.Post", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("AntolinBook")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Author")
-                        .HasColumnType("text");
-
-                    b.Property<string>("AuthorShort")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Category")
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("Currency")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Division")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ISBN")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Number")
-                        .HasColumnType("text");
-
-                    b.Property<double?>("Price")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("Publisher")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SchoolClass")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SourceOfSupply")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Special")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Subject")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Title")
+                    b.Property<string>("CreatedByUserId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("Type")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Year")
+                    b.Property<string>("Message")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Books");
+                    b.HasIndex("CreatedByUserId");
+
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("xLib.Infastructure.Identity.Models.ApplicationUser", b =>
@@ -354,6 +306,15 @@ namespace xLib.Infastructure.Persistence.Migrations
                     b.HasOne("xLib.Infastructure.Identity.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("xLib.Domain.Entities.Post", b =>
+                {
+                    b.HasOne("xLib.Infastructure.Identity.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -1,4 +1,5 @@
 ﻿namespace xLib.Application.Common.Exceptions;
+
 public class EntityNotFoundException : Exception
 {
     public EntityNotFoundException()
