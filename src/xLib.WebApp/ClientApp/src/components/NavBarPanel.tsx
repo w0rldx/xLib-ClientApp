@@ -1,5 +1,6 @@
 import { Group, Navbar, ScrollArea } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
+
 import NavigationService from '../services/NavigationService';
 import { useStyles } from '../styles/components/NavBarPanelStyle';
 import { LogoContainer } from './LogoContainer';

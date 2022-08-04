@@ -11,6 +11,7 @@ import { BiLogOut } from 'react-icons/bi';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import { MdOutlineAccountCircle } from 'react-icons/md';
 import { useNavigate } from 'react-router';
+
 import { useAuthStore } from '../stores/AuthStore';
 import { useStyles } from '../styles/components/SingedInUserStyle';
 

@@ -1,4 +1,5 @@
 import { Group } from '@mantine/core';
+
 import { useStyles } from '../styles/components/TopBarStyle';
 import DarkModeToggle from './DarkModeToggle';
 

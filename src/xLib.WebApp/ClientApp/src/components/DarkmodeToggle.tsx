@@ -1,5 +1,6 @@
 import { ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { BsMoonStars, BsSun } from 'react-icons/bs';
+
 import LocalStorageHelper from '../utils/LocalStorageHelper';
 
 function DarkModeToggle() {

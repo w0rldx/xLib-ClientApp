@@ -14,5 +14,3 @@ src/serviceWorker.ts
 src/assets/*
 src/index.html
 */**/*.scss
-webpack.dev.config.ts
-webpack.prod.config.ts

@@ -1,5 +1,6 @@
 import { AppShell } from '@mantine/core';
 import { Outlet } from 'react-router-dom';
+
 import { useStyles } from '../styles/components/SiteLayoutStyle';
 import { NavBarPanel } from './NavBarPanel';
 import { TopBar } from './TopBar';

@@ -1,4 +1,5 @@
 import { Avatar, Badge, Button, Card, Group, Image, Text } from '@mantine/core';
+
 import { useStyles } from '../styles/components/UserCardStyle';
 
 interface UserCardProps {

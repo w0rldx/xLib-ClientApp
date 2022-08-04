@@ -1,8 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
+
 import { IUser } from '../interfaces/User';
 
 const apiClient = axios.create({
-    baseURL: process.env.WEB_API_URL,
+    baseURL: import.meta.env.VITE_WEB_API_URL,
     headers: {
         'Content-type': 'application/json',
     },

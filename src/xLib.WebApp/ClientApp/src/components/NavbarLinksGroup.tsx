@@ -9,8 +9,8 @@ import {
 import { useState } from 'react';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
+
 import { useStyles } from '../styles/components/NavbarLinksGroupStyle';
-import DynamicIcon from './DynamicIcon';
 
 interface LinksGroupProps {
     icon?: string;
@@ -46,7 +46,7 @@ export function LinksGroup({
         if (Icon !== undefined) {
             return (
                 <ThemeIcon variant="light" size={30}>
-                    <DynamicIcon icon={Icon} size="18" color="black" />
+                    {/* <DynamicIcon icon={Icon} size="18" color="black" /> */}
                 </ThemeIcon>
             );
         }

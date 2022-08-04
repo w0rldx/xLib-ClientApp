@@ -1,4 +1,5 @@
 import { Text } from '@mantine/core';
+
 import { useStyles } from '../styles/components/LogoContainerStyle';
 
 interface LogoContainerProps {
