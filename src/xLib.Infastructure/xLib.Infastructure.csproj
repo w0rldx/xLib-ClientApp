@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Identity\Interfaces\" />
+    <Compile Remove="Identity\Interfaces\**" />
+    <EmbeddedResource Remove="Identity\Interfaces\**" />
+    <None Remove="Identity\Interfaces\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Persistence\Migrations\" />
   </ItemGroup>
 

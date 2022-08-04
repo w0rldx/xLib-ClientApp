@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Book\Commands\" />
-    <Folder Include="Book\Handlers\" />
-    <Folder Include="Book\Queries\" />
-    <Folder Include="Common\Behaviours\" />
+    <Compile Remove="Common\Behaviours\**" />
+    <EmbeddedResource Remove="Common\Behaviours\**" />
+    <None Remove="Common\Behaviours\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Mappings\" />
     <Folder Include="User\Handlers\" />

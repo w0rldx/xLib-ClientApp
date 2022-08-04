@@ -1,15 +1,12 @@
 ﻿namespace xLib.Infastructure.Persistence;
 
 using Application.Common.Interfaces;
-using Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using xLib.Infastructure.Identity.Models;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
 {
-    public DbSet<Book> Books => Set<Book>();
-
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }

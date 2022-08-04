@@ -7,11 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entities\Config\**" />
+    <Compile Remove="Exceptions\**" />
+    <Compile Remove="ValueObjects\**" />
+    <EmbeddedResource Remove="Entities\Config\**" />
+    <EmbeddedResource Remove="Exceptions\**" />
+    <EmbeddedResource Remove="ValueObjects\**" />
+    <None Remove="Entities\Config\**" />
+    <None Remove="Exceptions\**" />
+    <None Remove="ValueObjects\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Common\Interfaces\" />
-    <Folder Include="Entities\Config\" />
+    <Folder Include="Entities\" />
     <Folder Include="Enums\" />
-    <Folder Include="Exceptions\" />
-    <Folder Include="ValueObjects\" />
   </ItemGroup>
 
 </Project>
