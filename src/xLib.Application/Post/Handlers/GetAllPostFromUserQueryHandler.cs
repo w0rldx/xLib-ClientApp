@@ -1,26 +1,26 @@
-﻿using System.Security.Claims;
+﻿namespace xLib.Application.Post.Handlers;
+
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 using xLib.Application.Common.Interfaces;
 using xLib.Application.Post.Queries;
 using xLib.Application.Post.ViewModels;
+using xLib.Domain.Entities;
 using xLib.Infastructure.Identity.Models;
-
-namespace xLib.Application.Post.Handlers;
 
 public class GetAllPostFromUserQueryHandler : IRequestHandler<GetAllPostFromUserQuery, List<PostViewModel>>
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IApplicationDbContext _context;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IRepository<Post> _repository;
 
-    public GetAllPostFromUserQueryHandler(UserManager<ApplicationUser> userManager, IApplicationDbContext context,
-        IHttpContextAccessor httpContextAccessor)
+    public GetAllPostFromUserQueryHandler(UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor, IRepository<Post> repository)
     {
         _userManager = userManager;
-        _context = context;
         _httpContextAccessor = httpContextAccessor;
+        _repository = repository;
     }
 
     public async Task<List<PostViewModel>> Handle(GetAllPostFromUserQuery request, CancellationToken cancellationToken)
@@ -41,7 +41,7 @@ public class GetAllPostFromUserQueryHandler : IRequestHandler<GetAllPostFromUser
             return postVMList;
         }
 
-        var posts = _context.Posts.Where(x => x.CreatedByUserId.Equals(user.Id)).ToList();
+        var posts = _repository.GetByExpression(x => x.CreatedByUserId.Equals(user.Id));
 
         foreach (var post in posts)
         {

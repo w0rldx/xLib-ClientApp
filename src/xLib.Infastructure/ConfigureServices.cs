@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using xLib.Application.Common.Interfaces;
+using xLib.Domain.Entities;
 using xLib.Infastructure.Identity.Models;
 using xLib.Infastructure.Persistence;
+using xLib.Infastructure.Repositories;
 
 public static class ConfigureServices
 {
@@ -43,6 +45,9 @@ public static class ConfigureServices
         services.AddIdentityCore<ApplicationUser>();
 
         services.AddScoped<UserManager<ApplicationUser>>();
+
+        // Repositories
+        services.AddScoped<IRepository<Post>, SqlRepository<Post>>();
 
         return services;
     }

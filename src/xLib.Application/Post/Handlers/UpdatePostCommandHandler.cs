@@ -1,28 +1,28 @@
-﻿using System.Security.Claims;
+﻿namespace xLib.Application.Post.Handlers;
+
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using xLib.Application.Common.Exceptions;
+using System.Security.Claims;
 using xLib.Application.Common.Interfaces;
 using xLib.Application.Post.Commands;
 using xLib.Application.Post.Exceptions;
 using xLib.Application.Post.ViewModels;
+using xLib.Domain.Entities;
 using xLib.Infastructure.Identity.Models;
-
-namespace xLib.Application.Post.Handlers;
 
 public class UpdatePostCommandHandler : IRequestHandler<UpdatePostCommand, PostViewModel>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IApplicationDbContext _context;
+    private readonly IRepository<Post> _repository;
 
-    public UpdatePostCommandHandler(IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager,
-        IApplicationDbContext context)
+    public UpdatePostCommandHandler(IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager, IRepository<Post> repository)
     {
         _httpContextAccessor = httpContextAccessor;
         _userManager = userManager;
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<PostViewModel> Handle(UpdatePostCommand request, CancellationToken cancellationToken)
@@ -30,12 +30,7 @@ public class UpdatePostCommandHandler : IRequestHandler<UpdatePostCommand, PostV
         var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue("uid");
         var user = await _userManager.FindByIdAsync(userId);
 
-        var post = _context.Posts.SingleOrDefault(x => x.Id.Equals(request.Id));
-
-        if (post == null)
-        {
-            throw new EntityNotFoundException();
-        }
+        var post = _repository.GetSingleById(request.Id);
 
         if (post.CreatedByUserId != user.Id)
         {
@@ -44,14 +39,14 @@ public class UpdatePostCommandHandler : IRequestHandler<UpdatePostCommand, PostV
 
         post.Message = request.Message;
 
-        var result = _context.Posts.Update(post);
-        await _context.SaveChangesAsync(cancellationToken);
+        var result = _repository.Update(request.Id, post);
+        await _repository.SaveChanges(cancellationToken);
 
         return new PostViewModel()
         {
-            Id = result.Entity.Id,
-            Message = result.Entity.Message,
-            CreatedDate = result.Entity.Created
+            Id = result.Id,
+            Message = result.Message,
+            CreatedDate = result.Created
         };
     }
 }

@@ -1,11 +1,9 @@
 ﻿namespace xLib.Domain.Entities;
+using xLib.Domain.Common.Interfaces;
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-public class Post
+public class Post : IBaseEntity
 {
-    [Key] public Guid Id { get; set; }
+    public Guid Id { get; set; }
     public string Message { get; set; }
     public DateTime Created { get; set; }
     public string CreatedByUserId { get; set; }

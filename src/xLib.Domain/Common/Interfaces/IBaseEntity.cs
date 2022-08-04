@@ -1,6 +1,8 @@
 ﻿namespace xLib.Domain.Common.Interfaces;
 
+using System.ComponentModel.DataAnnotations;
+
 public interface IBaseEntity
 {
-    public Guid Id { get; set; }
+    [Key] public Guid Id { get; set; }
 }
