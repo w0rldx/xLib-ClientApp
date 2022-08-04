@@ -8,13 +8,13 @@ using xLib.Infastructure.Identity.Models;
 
 public class ApplicationDbContextInitializer
 {
-
     private readonly ILogger<ApplicationDbContextInitializer> _logger;
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+    public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger,
+        ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _logger = logger;
         _context = context;
@@ -54,7 +54,6 @@ public class ApplicationDbContextInitializer
     public async Task SeedDataAsync()
     {
         await SeedUserAsync();
-        await SeedBookDataAsync();
     }
 
 
@@ -84,22 +83,6 @@ public class ApplicationDbContextInitializer
         {
             await _userManager.CreateAsync(defaultUser, DefaultUser.default_password);
             await _userManager.AddToRoleAsync(defaultUser, DefaultUser.default_role.ToString());
-        }
-    }
-
-    private async Task SeedBookDataAsync()
-    {
-        if (!_context.Books.Any())
-        {
-            _context.Books.AddRange(new Book { Title = "Professional C# 7 and .NET Core 2.0", Publisher = "Wrox Press" },
-                new Book { Title = "Professional C# 6 and .NET 4.5.1", Publisher = "Wrox Press" },
-                new Book { Title = "Enterprise Services with the .NET Framework", Publisher = "AWL" },
-                new Book { Title = "Professional C# 5.0 and the .NET 4.5 Framework", Publisher = "Wrox Press" },
-                new Book { Title = "C# 5.0 in a Nutshell", Publisher = "O'Reilly" },
-                new Book { Title = "C# 5.0 Unleashed", Publisher = "O'Reilly" }
-            );
-
-            await _context.SaveChangesAsync();
         }
     }
 }

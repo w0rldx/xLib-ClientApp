@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { AiFillUnlock } from 'react-icons/ai';
 import { BiErrorAlt } from 'react-icons/bi';
 import { Link, useNavigate } from 'react-router-dom';
+
 import DarkModeToggle from '../components/DarkModeToggle';
 import AuthenticatedError from '../exceptions/AuthenticatedError';
 import { ITokenResponse } from '../interfaces/Identity';
@@ -60,8 +61,13 @@ function Register() {
         },
 
         validate: {
-            email: (value: string) =>
-                /^\S+@\S+$/.test(value) ? null : 'Invalid email',
+            email: (input: string) =>
+                /^\S+@\S+$/.test(input) ? null : 'Invalid email',
+            password: (input: string) => {
+                if (input.length < 5) {
+                    return 'Password must be at least 5 characters long';
+                }
+            },
         },
     });
 

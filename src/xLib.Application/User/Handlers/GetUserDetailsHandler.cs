@@ -31,9 +31,11 @@ public class GetUserDetailsHandler : IRequestHandler<GetUserDetailsQuery, Applic
             Email = user.Email,
             FirstName = user.FirstName,
             LastName = user.LastName,
-            Username = user.UserName,
+            UserName = user.UserName,
             Private = user.Private,
-            Roles = rolesList.ToArray()
+            Roles = rolesList.ToArray(),
+            HeaderPicture = user.HeaderPictureUrl,
+            AvatarPicture = user.AvatarPictureUrl
         };
 
         return userVm;

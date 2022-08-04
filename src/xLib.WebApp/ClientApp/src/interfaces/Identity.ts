@@ -19,9 +19,10 @@ export interface IIdentityLoginForm {
 export interface IIdentity {
     firstName: string;
     lastName: string;
-    username: string;
+    userName: string;
     roles: string[];
     email: string;
     private: boolean;
-    profilePicture: string;
+    avatarPicture: string;
+    headerPicture: string;
 }

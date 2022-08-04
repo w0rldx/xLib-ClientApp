@@ -1,7 +1,6 @@
 ﻿namespace xLib.WebApp.Controllers;
 
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]

@@ -19,7 +19,8 @@ public class IdentityService : IIdentityService
     private readonly JWTToken _jwt;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public IdentityService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptions<JWTToken> jwt, IHttpContextAccessor httpContextAccessor)
+    public IdentityService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
+        IOptions<JWTToken> jwt, IHttpContextAccessor httpContextAccessor)
     {
         _userManager = userManager;
         _roleManager = roleManager;
@@ -63,7 +64,6 @@ public class IdentityService : IIdentityService
         authenticationModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
         return authenticationModel;
-
     }
 
     public async Task<AuthenticationViewModel> GetTokenAsync(LoginViewModel model)
@@ -94,17 +94,21 @@ public class IdentityService : IIdentityService
         {
             return $"No Accounts Registered with {model.Email}.";
         }
+
         if (await _userManager.CheckPasswordAsync(user, model.Password))
         {
             var roleExists = Enum.GetNames(typeof(Roles)).Any(x => x.ToLower() == model.Role.ToLower());
             if (roleExists)
             {
-                var validRole = Enum.GetValues(typeof(Roles)).Cast<Roles>().Where(x => x.ToString().ToLower() == model.Role.ToLower()).FirstOrDefault();
+                var validRole = Enum.GetValues(typeof(Roles)).Cast<Roles>()
+                    .Where(x => x.ToString().ToLower() == model.Role.ToLower()).FirstOrDefault();
                 await _userManager.AddToRoleAsync(user, validRole.ToString());
                 return $"Added {model.Role} to user {model.Email}.";
             }
+
             return $"Role {model.Role} not found.";
         }
+
         return $"Incorrect Credentials for user {user.Email}.";
     }
 
@@ -117,6 +121,7 @@ public class IdentityService : IIdentityService
         {
             roleClaims.Add(new Claim("roles", roles[i]));
         }
+
         var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),

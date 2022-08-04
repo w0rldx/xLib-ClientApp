@@ -1,4 +1,5 @@
 import { Text } from '@mantine/core';
+
 import { useStyles } from '../styles/components/LogoContainerStyle';
 
 interface LogoContainerProps {
@@ -16,7 +17,7 @@ export function LogoContainer(props: LogoContainerProps) {
                 style={{ fontSize: props.fontsize + 'px' }}
                 className={classes.logo}
             >
-                {process.env.APP_NAME}
+                {import.meta.env.VITE_APP_NAME}
             </Text>
         </div>
     );

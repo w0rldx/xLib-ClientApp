@@ -15,7 +15,7 @@ interface NavBarLinkItem {
 export function getNavigationData(): NavigationItem[] {
     return [
         {
-            label: 'Dashboard',
+            label: 'Home',
             icon: 'ai/AiOutlineDashboard',
             link: '/',
             links: [],
@@ -23,82 +23,20 @@ export function getNavigationData(): NavigationItem[] {
             initiallyOpened: true,
         },
         {
-            label: 'Market news',
-            icon: 'ai/AiOutlineProject',
-            link: '',
-            links: [
-                {
-                    label: 'Overview',
-                    link: 'overview',
-                },
-                {
-                    label: 'Forecasts',
-                    link: 'forecasts',
-                },
-                {
-                    label: 'Outlook',
-                    link: 'outlook',
-                },
-                {
-                    label: 'Real time',
-                    link: 'realtime',
-                },
-            ],
+            label: 'User',
+            icon: 'ai/AiOutlineUser',
+            link: '/user/@user',
+            links: [],
             index: 1,
+            initiallyOpened: false,
         },
         {
-            label: 'Releases',
-            icon: 'ai/AiOutlineCalendar',
-            link: '',
-            links: [
-                {
-                    label: 'Upcoming releases',
-                    link: 'upcomingreleases',
-                },
-                {
-                    label: 'Previous releases',
-                    link: 'previousreleases',
-                },
-                {
-                    label: 'Releases schedule',
-                    link: 'releasesschedule',
-                },
-            ],
+            label: 'Messages',
+            icon: 'ai/AiOutlineMessage',
+            link: '/user/messages',
+            links: [],
             index: 2,
-        },
-        {
-            label: 'Analytics',
-            icon: 'ai/AiOutlineFundProjectionScreen',
-            link: 'Analytics',
-            links: [],
-            index: 3,
-        },
-        {
-            label: 'Contracts',
-            icon: 'ai/AiOutlineFile',
-            link: 'Contracts',
-            links: [],
-            index: 4,
-        },
-        {
-            label: 'Security',
-            icon: 'ai/AiOutlineLock',
-            link: '',
-            links: [
-                {
-                    label: 'Enable 2FA',
-                    link: '2fa',
-                },
-                {
-                    label: 'Change password',
-                    link: 'changepassword',
-                },
-                {
-                    label: 'Recovery codes',
-                    link: 'recoverycodes',
-                },
-            ],
-            index: 5,
+            initiallyOpened: false,
         },
     ];
 }

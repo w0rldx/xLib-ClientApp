@@ -11,6 +11,7 @@ import { BiLogOut } from 'react-icons/bi';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import { MdOutlineAccountCircle } from 'react-icons/md';
 import { useNavigate } from 'react-router';
+
 import { useAuthStore } from '../stores/AuthStore';
 import { useStyles } from '../styles/components/SingedInUserStyle';
 
@@ -35,18 +36,18 @@ function SingedInUser() {
     }
 
     function userProfile() {
-        navigate(`/user/${getUser?.username}`);
+        navigate(`/user/${getUser?.userName}`);
     }
 
     const userAvatar = () => {
-        if (getUser?.profilePicture !== '') {
+        if (getUser?.avatarPicture !== null || getUser?.avatarPicture !== '') {
             return <Avatar className={classes.avatar} radius="xl" />;
         } else {
             return (
                 <Avatar
                     className={classes.avatar}
                     radius="xl"
-                    src={getUser?.profilePicture}
+                    src={getUser?.avatarPicture}
                 />
             );
         }

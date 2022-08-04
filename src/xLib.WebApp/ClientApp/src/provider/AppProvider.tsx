@@ -1,3 +1,5 @@
+import '../index.css';
+
 import {
     ColorScheme,
     ColorSchemeProvider,
@@ -12,7 +14,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useEffect, useState } from 'react';
 import { BiErrorAlt } from 'react-icons/bi';
 import { useNavigate } from 'react-router';
-import '../scss/Index.scss';
+
 import IdentityService from '../services/IdentityService';
 import { useAuthStore } from '../stores/AuthStore';
 import LocalStorageHelper from '../utils/LocalStorageHelper';
