@@ -1,4 +1,4 @@
-import { IIdentity } from 'interfaces/Identity';
+import { IIdentity } from '../interfaces/Identity';
 
 const setUserSessionStorage = (user: IIdentity) => {
     sessionStorage.setItem('user', JSON.stringify(user));
