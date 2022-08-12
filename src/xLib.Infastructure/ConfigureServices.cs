@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using xLib.Application.Common.Helper;
 using xLib.Application.Common.Interfaces;
 using xLib.Domain.Entities;
 using xLib.Infastructure.Identity.Models;
@@ -22,8 +23,10 @@ public static class ConfigureServices
         }
         else
         {
+            var connectionString = ConnectionStringBuilder.BuildConnectionString(configuration);
+
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
+                options.UseNpgsql(connectionString,
                     builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
         }
 

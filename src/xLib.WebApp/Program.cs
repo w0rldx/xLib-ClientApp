@@ -1,6 +1,5 @@
 using xLib.Application;
 using xLib.Infastructure;
-using xLib.Infastructure.Persistence;
 using xLib.WebApp;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,12 +21,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    using (var scope = app.Services.CreateScope())
-    {
-        var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
-        await initialiser.InitialiseAsync();
-        await initialiser.SeedAsync();
-    }
+    //using (var scope = app.Services.CreateScope())
+    //{
+    //    var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
+    //    await initialiser.InitialiseAsync();
+    //    await initialiser.SeedAsync();
+    //}
 }
 else
 {

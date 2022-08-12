@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: xlib-api-config
+data:
+  server: postgres-xlib-service
+  port: '5432'
+  container: 'true'
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xlib-api-deployment
+  labels:
+    app: xlib-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: xlib-api
+  template:
+    metadata:
+      labels:
+        app: xlib-api
+    spec:
+      containers:
+        - name: xlib-api
+          image: xlib/api:0.0.3
+          imagePullPolicy: Never
+          resources:
+            limits:
+              memory: '128Mi'
+              cpu: '500m'
+          ports:
+            - containerPort: 80
+          env:
+            - name: CONTAINER
+              valueFrom:
+                configMapKeyRef:
+                  name: xlib-api-config
+                  key: container
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-xlib-config
+                  key: POSTGRES_DB
+            - name: DB_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: xlib-api-config
+                  key: server
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: xlib-api-config
+                  key: port
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-xlib-config
+                  key: POSTGRES_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-xlib-config
+                  key: POSTGRES_PASSWORD

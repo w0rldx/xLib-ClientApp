@@ -5,8 +5,9 @@ metadata:
   labels:
     app: postgres-xlib
 spec:
-  type: NodePort
   ports:
     - port: 5432
+      targetPort: 5432
+      protocol: TCP
   selector:
     app: postgres-xlib
