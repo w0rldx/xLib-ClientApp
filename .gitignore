@@ -418,3 +418,6 @@ lerna-debug.log*
 
 # typescript
 *.tsbuildinfo
+
+# pnpm 
+*pnpm-lock.yaml
