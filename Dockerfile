@@ -18,4 +18,4 @@ COPY deploy/nginx/nginx.conf /etc/nginx/conf.d
 
 EXPOSE 80
 
-CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/env.template.js > /usr/share/nginx/html/env-dynamic.template.js && nginx -g 'daemon off;'"]
+CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/env-dynamic.template.js > /usr/share/nginx/html/env-dynamic.template.js && nginx -g 'daemon off;'"]
