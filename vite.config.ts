@@ -17,6 +17,9 @@ export default defineConfig({
         dynamicImport,
         eslint(),
     ],
+    build: {
+        emptyOutDir: true,
+    },
     server: {
         port: 3000,
         proxy: {

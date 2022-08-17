@@ -2,8 +2,15 @@ import axios, { AxiosResponse } from 'axios';
 
 import { IUpdateUser, IUser } from '../interfaces/User';
 
+const baseUrl = () => {
+    if (import.meta.env.PROD) {
+        return window.env.APIURL;
+    }
+    return import.meta.env.VITE_WEB_API_LOCAL_URL;
+};
+
 const apiClient = axios.create({
-    baseURL: import.meta.env.VITE_WEB_API_URL,
+    baseURL: baseUrl(),
     headers: {
         'Content-type': 'application/json',
     },

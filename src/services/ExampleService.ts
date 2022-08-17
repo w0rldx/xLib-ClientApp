@@ -1,7 +1,14 @@
 import axios from 'axios';
 
+const baseUrl = () => {
+    if (import.meta.env.PROD) {
+        return window.env.APIURL;
+    }
+    return import.meta.env.VITE_WEB_API_LOCAL_URL;
+};
+
 const apiClient = axios.create({
-    baseURL: process.env.WEB_API_URL,
+    baseURL: baseUrl(),
     headers: {
         'Content-type': 'application/json',
     },
