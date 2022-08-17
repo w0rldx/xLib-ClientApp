@@ -30,5 +30,5 @@ nerdctl build -t xlib/app:0.0.1 .
 
 **Run Image:**
 ```bash
-nerdctl run --env API_URL="http://localhost:9000/api/" xlib/app:latest
+nerdctl run --env API_URL="http://localhost:9000/api/" -p 1337:80 xlib/app:latest
 ```
